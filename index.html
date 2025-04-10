@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mama Pizza - Restaurant Italien à Montlhéry</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- SEO Optimization -->
+    <meta name="description" content="Mama Pizza, restaurant italien authentique à Montlhéry. Découvrez nos pizzas cuites au feu de bois, nos pâtes fraîches et notre ambiance chaleureuse. Réservez votre table dès maintenant !">
+    <meta name="keywords" content="restaurant italien, pizza, Montlhéry, cuisine italienne, pizzeria, pâtes, réservation restaurant">
+    <meta name="author" content="Mama Pizza">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Mama Pizza - Restaurant Italien à Montlhéry">
+    <meta property="og:description" content="Cuisine italienne authentique, pizzas au feu de bois et ambiance chaleureuse à Montlhéry. Réservez votre table !">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+    <meta property="og:url" content="https://www.mamapizza.fr">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://www.mamapizza.fr">
+    
+    <style>
+        :root {
+            --primary: #D32F2F;
+            --secondary: #4CAF50;
+            --accent: #FFC107;
+            --background: #FFFBF5;
+            --text-dark: #333333;
+            --text-light: #FFFFFF;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--background);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Italiana', serif;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .menu-item {
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-img {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #B71C1C;
+            transform: translateY(-2px);
+        }
+        
+        .italian-flag-bar {
+            display: flex;
+            height: 6px;
+            width: 100%;
+        }
+        
+        .italian-flag-bar div {
+            height: 100%;
+            width: 33.33%;
+        }
+        
+        .italian-flag-green {
+            background-color: #009246;
+        }
+        
+        .italian-flag-white {
+            background-color: #ffffff;
+        }
+        
+        .italian-flag-red {
+            background-color: #ce2b37;
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .section-divider {
+            position: relative;
+            height: 80px;
+            margin: 20px 0;
+            overflow: hidden;
+            background: transparent;
+        }
+        
+        .section-divider svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .form-input {
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Admin panel styles */
+        #admin-panel {
+            display: none;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            
+            .mobile-menu.active {
+                display: flex;
+            }
+        }
+
+        /* Animation for success message */
+        .success-message {
+            animation: fadeOut 5s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-md" id="main-nav">
+        <div class="italian-flag-bar">
+            <div class="italian-flag-green"></div>
+            <div class="italian-flag-white"></div>
+            <div class="italian-flag-red"></div>
+        </div>
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-3xl font-bold text-red-700">Mama Pizza</h1>
+                <span class="ml-2 text-green-600 italic">Tradizione Italiana</span>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#accueil" class="nav-link font-medium">Accueil</a>
+                <a href="#menu" class="nav-link font-medium">Menu</a>
+                <a href="#a-propos" class="nav-link font-medium">À Propos</a>
+                <a href="#galerie" class="nav-link font-medium">Galerie</a>
+                <a href="#reservation" class="nav-link font-medium">Réservation</a>
+                <a href="#contact" class="nav-link font-medium">Contact</a>
+                <a href="#" id="admin-login-link" class="nav-link font-medium">Admin</a>
+            </div>
+            
+            <!-- Mobile Navigation Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden flex flex-col bg-white w-full py-4 px-8 shadow-lg">
+            <a href="#accueil" class="py-2 font-medium">Accueil</a>
+            <a href="#menu" class="py-2 font-medium">Menu</a>
+            <a href="#a-propos" class="py-2 font-medium">À Propos</a>
+            <a href="#galerie" class="py-2 font-medium">Galerie</a>
+            <a href="#reservation" class="py-2 font-medium">Réservation</a>
+            <a href="#contact" class="py-2 font-medium">Contact</a>
+            <a href="#" id="admin-login-link-mobile" class="py-2 font-medium">Admin</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Section -->
+    <div id="main-content">
+        <!-- Hero Section -->
+        <section id="accueil" class="hero-section min-h-screen flex items-center justify-center text-center">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto">
+                    <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 floating">Mama Pizza - Restaurant Italien Authentique à Montlhéry</h1>
+                    <p class="text-xl md:text-2xl text-white mb-6">La véritable tradition italienne à Montlhéry</p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <a href="#menu" class="btn-primary px-6 py-3 rounded-full font-semibold text-lg">Découvrir notre menu</a>
+                        <a href="#reservation" class="bg-white text-red-700 px-6 py-3 rounded-full font-semibold text-lg transition-all hover:bg-gray-100 hover:transform hover:-translate-y-2">Réserver une table</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="a-propos" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4">Notre Histoire</h2>
+                    <div class="w-24 h-1 bg-red-600 mx-auto"></div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurant Mama Pizza" class="rounded-lg shadow-xl w-full h-auto" loading="lazy">
+                    </div>
+                    <div class="md:w-1/2">
+                        <h3 class="text-3xl font-semibold mb-4">Bienvenue chez Mama Pizza</h3>
+                        <p class="text-gray-700 mb-6">Depuis son ouverture, Mama Pizza perpétue la tradition culinaire italienne authentique au cœur de Montlhéry. Notre passion pour les saveurs de l'Italie se retrouve dans chacun de nos plats préparés avec des ingrédients frais et de qualité.</p>
+                        <p class="text-gray-700 mb-6">Notre restaurant offre un cadre chaleureux idéal pour les repas en famille ou les dîners romantiques. Chaque détail, de la décoration aux recettes transmises de génération en génération, est pensé pour vous offrir une véritable expérience italienne.</p>
+                        <p class="text-gray-700 mb-8">Notre équipe, composée de passionnés de gastronomie italienne, met tout son savoir-faire dans la préparation de pizzas cuites au feu de bois, de pâtes fraîches et de desserts traditionnels qui raviront vos papilles.</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-utensils text-red-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Cuisine Authentique</h4>
+                                <p class="text-gray-600">Recettes traditionnelles italiennes</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 mt-4">
+                            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-leaf text-green-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Ingrédients Frais</h4>
+                                <p class="text-gray-600">Produits de qualité supérieure</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section id="menu" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4">Notre Menu</h2>
+                    <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Découvrez nos spécialités italiennes préparées avec passion et savoir-faire</p>
+                </div>
+                
+                <!-- Menu Categories -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="menu-category-btn px-6 py-2 rounded-full bg-red-600 text-white font-medium" data-category="toutes">Toutes</button>
+                    <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="entrées">Entrées</button>
+                    <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pizzas">Pizzas</button>
+                    <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pâtes">Pâtes</button>
+                    <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="desserts">Desserts</button>
+                    <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="boissons">Boissons</button>
+                </div>
+
+                <!-- Entrées -->
+                <div class="menu-section mb-16" data-category="entrées">
+                    <h3 class="text-3xl font-semibold mb-8 text-center">Entrées</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1625944230945-1b7dd3c211f5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bruschetta" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Bruschetta Classica</h4>
+                                    <span class="text-red-600 font-bold">7,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Pain grillé à l'ail, tomates fraîches, basilic et huile d'olive extra vierge</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-pepper-hot mr-1 text-red-500"></i>
+                                    <span>Légèrement épicé</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1615213612138-4d1e2c35f9b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Caprese" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Insalata Caprese</h4>
+                                    <span class="text-red-600 font-bold">8,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Tomates, mozzarella di bufala, basilic frais et réduction balsamique</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-leaf mr-1 text-green-500"></i>
+                                    <span>Végétarien</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Carpaccio di Manzo</h4>
+                                    <span class="text-red-600 font-bold">11,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Fines tranches de bœuf cru, parmesan, roquette et huile de truffe</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-star mr-1 text-yellow-500"></i>
+                                    <span>Spécialité du chef</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pizzas -->
+                <div class="menu-section mb-16" data-category="pizzas">
+                    <h3 class="text-3xl font-semibold mb-8 text-center">Pizzas</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1595854341625-f33e596b5102?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Margherita" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Pizza Margherita</h4>
+                                    <span class="text-red-600 font-bold">10,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Sauce tomate, mozzarella fior di latte, basilic frais et huile d'olive</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-leaf mr-1 text-green-500"></i>
+                                    <span>Végétarien</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Regina" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Pizza Regina</h4>
+                                    <span class="text-red-600 font-bold">12,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Sauce tomate, mozzarella, jambon cuit italien, champignons frais et origan</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-heart mr-1 text-red-500"></i>
+                                    <span>Très populaire</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Diavola" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Pizza Diavola</h4>
+                                    <span class="text-red-600 font-bold">13,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Sauce tomate, mozzarella, spianata piccante, poivrons et piment</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-pepper-hot mr-1 text-red-500"></i>
+                                    <span>Épicé</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1593560708920-61b98681d5cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Quattro Formaggi" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Quattro Formaggi</h4>
+                                    <span class="text-red-600 font-bold">14,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Sauce tomate, mozzarella, gorgonzola, parmesan, pecorino et origan</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-leaf mr-1 text-green-500"></i>
+                                    <span>Végétarien</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Prosciutto" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Pizza Prosciutto</h4>
+                                    <span class="text-red-600 font-bold">15,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Sauce tomate, mozzarella di bufala, jambon de Parme 18 mois, roquette et parmesan</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-star mr-1 text-yellow-500"></i>
+                                    <span>Spécialité du chef</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tartufo" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Pizza Tartufo</h4>
+                                    <span class="text-red-600 font-bold">17,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Base crème, mozzarella, champignons, crème de truffe, roquette et copeaux de parmesan</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-gem mr-1 text-purple-500"></i>
+                                    <span>Produit premium</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pâtes -->
+                <div class="menu-section mb-16" data-category="pâtes">
+                    <h3 class="text-3xl font-semibold mb-8 text-center">Pâtes</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carbonara" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Spaghetti Carbonara</h4>
+                                    <span class="text-red-600 font-bold">14,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Spaghetti, guanciale, œuf, pecorino romano et poivre noir</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-heart mr-1 text-red-500"></i>
+                                    <span>Très populaire</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bolognese" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Tagliatelle Bolognese</h4>
+                                    <span class="text-red-600 font-bold">13,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Tagliatelles fraîches, ragù à la bolognaise mijoté pendant 6 heures et parmesan</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-utensils mr-1 text-gray-500"></i>
+                                    <span>Classique italien</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pesto" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Linguine al Pesto</h4>
+                                    <span class="text-red-600 font-bold">12,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Linguine, pesto de basilic maison, pignons de pin et parmesan</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-leaf mr-1 text-green-500"></i>
+                                    <span>Végétarien</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Desserts -->
+                <div class="menu-section" data-category="desserts">
+                    <h3 class="text-3xl font-semibold mb-8 text-center">Desserts</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tiramisu" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Tiramisu</h4>
+                                    <span class="text-red-600 font-bold">6,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Biscuits, mascarpone, café, cacao et amaretto</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-star mr-1 text-yellow-500"></i>
+                                    <span>Fait maison</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1625436274817-a4e24c184cc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Panna Cotta" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Panna Cotta</h4>
+                                    <span class="text-red-600 font-bold">6,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Crème, vanille, coulis de fruits rouges ou caramel au choix</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-heart mr-1 text-red-500"></i>
+                                    <span>Très populaire</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1511715112108-9acc5951de06?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Cannoli" class="w-full h-48 object-cover" loading="lazy">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Cannoli Siciliani</h4>
+                                    <span class="text-red-600 font-bold">7,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Tubes croustillants, crème de ricotta sucrée et pistaches ou pépites de chocolat</p>
+                                <div class="flex items-center text-gray-500 text-sm">
+                                    <i class="fas fa-utensils mr-1 text-gray-500"></i>
+                                    <span>Spécialité sicilienne</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boissons Section -->
+                <div class="menu-section hidden" data-category="boissons">
+                    <h3 class="text-3xl font-semibold mb-8 text-center">Boissons</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Vin Rouge Chianti</h4>
+                                    <span class="text-red-600 font-bold">24,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Bouteille 75cl, Toscane</p>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Vin Blanc Pinot Grigio</h4>
+                                    <span class="text-red-600 font-bold">22,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Bouteille 75cl, Vénétie</p>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Prosecco</h4>
+                                    <span class="text-red-600 font-bold">26,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Bouteille 75cl, Vénétie</p>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Eau Minérale</h4>
+                                    <span class="text-red-600 font-bold">3,90 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Bouteille 1L, plate ou gazeuse</p>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Sodas</h4>
+                                    <span class="text-red-600 font-bold">3,50 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Coca-Cola, Fanta, Sprite (33cl)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-xl font-semibold">Café Italien</h4>
+                                    <span class="text-red-600 font-bold">2,20 €</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Espresso arabica torréfié à l'italienne</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="galerie" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4">Notre Galerie</h2>
+                    <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Découvrez l'ambiance chaleureuse de notre restaurant et nos délicieuses créations culinaires</p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1579684947550-22e945225d9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant intérieur" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pâtes" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tiramisu" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1593560708920-61b98681d5cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza quatre fromages" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                    <div class="gallery-img overflow-hidden rounded-lg shadow-md">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4">Avis de nos clients</h2>
+                    <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Ce que nos clients pensent de leur expérience chez Mama Pizza</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-gray-600">5.0</span>
+                        </div>
+                        <p class="text-gray-700 mb-6">"Les meilleures pizzas de la région ! La pâte est fine et croustillante, les ingrédients sont frais et de qualité. L'ambiance est chaleureuse et le service impeccable. Je recommande vivement !"</p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                <span class="text-gray-600 font-bold">SL</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Sophie L.</h4>
+                                <p class="text-gray-500 text-sm">Client fidèle</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="ml-2 text-gray-600">5.0</span>
+                        </div>
+                        <p class="text-gray-700 mb-6">"Soirée romantique parfaite ! Les pâtes à la truffe sont un délice et le tiramisu est l'un des meilleurs que j'ai goûtés. L'ambiance était idéale pour notre anniversaire de mariage. Nous reviendrons !"</p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                <span class="text-gray-600 font-bold">TD</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Thomas D.</h4>
+                                <p class="text-gray-500 text-sm">Client régulier</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
+                        <div class="flex items-center mb-4">
+                            <div class="flex text-yellow-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="ml-2 text-gray-600">4.5</span>
+                        </div>
+                        <p class="text-gray-700 mb-6">"Repas en famille très agréable ! Les enfants ont adoré leurs pizzas et le personnel a été très attentionné. Le rapport qualité-prix est excellent et l'ambiance typiquement italienne est un vrai plus."</p>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                <span class="text-gray-600 font-bold">CM</span>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="font-semibold">Camille M.</h4>
+                                <p class="text-gray-500 text-sm">Client satisfait</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reservation Section -->
+        <section id="reservation" class="py-16 bg-white">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4">Réservez votre table</h2>
+                    <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">Réservez facilement votre table pour profiter d'un moment italien authentique</p>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Table réservation" class="rounded-lg shadow-xl w-full h-auto" loading="lazy">
+                    </div>
+                    <div class="lg:w-1/2 bg-gray-50 p-8 rounded-lg shadow-md relative">
+                        <!-- Message de confirmation (caché par défaut) -->
+                        <div id="reservation-success" class="hidden absolute top-0 left-0 right-0 bg-green-100 text-green-800 border-l-4 border-green-500 p-4 mb-6">
+                            Merci pour votre réservation ! Nous vous contacterons bientôt pour confirmer.
+                        </div>
+                        
+                        <form id="reservation-form" action="https://formspree.io/f/yourformspree" method="POST" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-gray-700 font-medium mb-2">Nom</label>
+                                    <input type="text" id="name" name="name" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                    <input type="email" id="email" name="email" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="phone" class="block text-gray-700 font-medium mb-2">Téléphone</label>
+                                    <input type="tel" id="phone" name="phone" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                </div>
+                                <div>
+                                    <label for="guests" class="block text-gray-700 font-medium mb-2">Nombre de personnes</label>
+                                    <select id="guests" name="guests" class="form-select w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                        <option value="">Sélectionnez</option>
+                                        <option value="1">1 personne</option>
+                                        <option value="2">2 personnes</option>
+                                        <option value="3">3 personnes</option>
+                                        <option value="4">4 personnes</option>
+                                        <option value="5">5 personnes</option>
+                                        <option value="6">6 personnes</option>
+                                        <option value="7+">7 personnes ou plus</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="date" class="block text-gray-700 font-medium mb-2">Date</label>
+                                    <input type="date" id="date" name="date" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                </div>
+                                <div>
+                                    <label for="time" class="block text-gray-700 font-medium mb-2">Heure</label>
+                                    <select id="time" name="time" class="form-select w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                        <option value="">Sélectionnez</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="12:30">12:30</option>
+                                        <option value="13:00">13:00</option>
+                                        <option value="13:30">13:30</option>
+                                        <option value="19:00">19:00</option>
+                                        <option value="19:30">19:30</option>
+                                        <option value="20:00">20:00</option>
+                                        <option value="20:30">20:30</option>
+                                        <option value="21:00">21:00</option>
+                                        <option value="21:30">21:30</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-gray-700 font-medium mb-2">Demande spéciale (optionnel)</label>
+                                <textarea id="message" name="message" rows="4" class="form-textarea w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                            </div>
+                            
+                            <input type="hidden" name="_subject" value="Nouvelle réservation Mama Pizza">
+                            <input type="hidden" name="_next" value="https://votre-site.com#reservation-success">
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn-primary px-8 py-3 rounded-full font-semibold text-lg">Réserver maintenant</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold mb-4">Contactez-nous</h2>
+                    <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
+                    <p class="text-gray-600 max-w-2xl mx-auto">N'hésitez pas à nous contacter pour toute information</p>
+                </div>
+                
+                <div class="flex flex-col lg:flex-row gap-12">
+                    <div class="lg:w-1/2">
+                        <div class="bg-white p-8 rounded-lg shadow-md h-full">
+                            <h3 class="text-2xl font-semibold mb-6">Nos coordonnées</h3>
+                            
+                            <div class="flex items-start mb-6">
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Adresse</h4>
+                                    <p class="text-gray-600">25 Rue de la Liberté, 91310 Montlhéry, France</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-6">
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone-alt text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Téléphone</h4>
+                                    <p class="text-gray-600">+33 1 23 45 67 89</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-6">
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Email</h4>
+                                    <p class="text-gray-600">contact@mamapizza.fr</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start mb-8">
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-clock text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg mb-1">Horaires d'ouverture</h4>
+                                    <p class="text-gray-600">Mardi - Dimanche : 12h00 - 14h30 | 19h00 - 22h30</p>
+                                    <p class="text-gray-600">Fermé le lundi</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="text-2xl font-semibold mb-4">Suivez-nous</h3>
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center transition-transform hover:transform hover:scale-110">
+                                    <i class="fab fa-facebook-f text-xl"></i>
+                                </a>
+                                <a href="#" class="w-12 h-12 bg-pink-600 text-white rounded-full flex items-center justify-center transition-transform hover:transform hover:scale-110">
+                                    <i class="fab fa-instagram text-xl"></i>
+                                </a>
+                                <a href="#" class="w-12 h-12 bg-red-600 text-white rounded-full flex items-center justify-center transition-transform hover:transform hover:scale-110">
+                                    <i class="fab fa-tripadvisor text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-1/2">
+                        <div class="bg-white p-8 rounded-lg shadow-md relative">
+                            <!-- Message de confirmation (caché par défaut) -->
+                            <div id="contact-success" class="hidden absolute top-0 left-0 right-0 bg-green-100 text-green-800 border-l-4 border-green-500 p-4 mb-6">
+                                Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.
+                            </div>
+                            
+                            <h3 class="text-2xl font-semibold mb-6">Envoyez-nous un message</h3>
+                            <form id="contact-form" action="https://formspree.io/f/yourformspree2" method="POST" class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label for="contact-name" class="block text-gray-700 font-medium mb-2">Nom</label>
+                                        <input type="text" id="contact-name" name="name" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                    </div>
+                                    <div>
+                                        <label for="contact-email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                        <input type="email" id="contact-email" name="email" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="contact-subject" class="block text-gray-700 font-medium mb-2">Sujet</label>
+                                    <input type="text" id="contact-subject" name="subject" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                </div>
+                                
+                                <div>
+                                    <label for="contact-message" class="block text-gray-700 font-medium mb-2">Message</label>
+                                    <textarea id="contact-message" name="message" rows="5" class="form-textarea w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required></textarea>
+                                </div>
+                                
+                                <input type="hidden" name="_subject" value="Nouveau message de contact Mama Pizza">
+                                <input type="hidden" name="_next" value="https://votre-site.com#contact-success">
+                                
+                                <div class="text-center">
+                                    <button type="submit" class="btn-primary px-8 py-3 rounded-full font-semibold text-lg">Envoyer le message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12">
+                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21036.4063414895!2d2.2652242!3d48.638055699999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e5d73c4a6a7c83%3A0x402f33305f35aa0!2s91310%20Montlh%C3%A9ry!5e0!3m2!1sfr!2sfr!4v1675260211096!5m2!1sfr!2sfr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between">
+                    <div class="mb-8 md:mb-0">
+                        <h3 class="text-3xl font-bold text-red-500 mb-4">Mama Pizza</h3>
+                        <p class="max-w-xs text-gray-400">Cuisine italienne authentique et traditionnelle à Montlhéry. Un voyage gustatif en Italie sans quitter la France.</p>
+                        <div class="mt-6 flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                                <i class="fab fa-tripadvisor text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8 md:mb-0">
+                        <h4 class="text-xl font-semibold mb-4">Navigation</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#accueil" class="text-gray-400 hover:text-white transition-colors">Accueil</a></li>
+                            <li><a href="#menu" class="text-gray-400 hover:text-white transition-colors">Menu</a></li>
+                            <li><a href="#a-propos" class="text-gray-400 hover:text-white transition-colors">À Propos</a></li>
+                            <li><a href="#galerie" class="text-gray-400 hover:text-white transition-colors">Galerie</a></li>
+                            <li><a href="#reservation" class="text-gray-400 hover:text-white transition-colors">Réservation</a></li>
+                            <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-8 md:mb-0">
+                        <h4 class="text-xl font-semibold mb-4">Contact</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                <span>25 Rue de la Liberté, 91310 Montlhéry</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-phone-alt mr-2"></i>
+                                <span>+33 1 23 45 67 89</span>
+                            </li>
+                            <li class="flex items-center text-gray-400">
+                                <i class="fas fa-envelope mr-2"></i>
+                                <span>contact@mamapizza.fr</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-xl font-semibold mb-4">Horaires</h4>
+                        <ul class="space-y-2 text-gray-400">
+                            <li class="flex justify-between">
+                                <span>Lundi</span>
+                                <span>Fermé</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Mardi - Vendredi</span>
+                                <span>12h - 14h30 | 19h - 22h30</span>
+                            </li>
+                            <li class="flex justify-between">
+                                <span>Samedi - Dimanche</span>
+                                <span>12h - 15h | 19h - 23h</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="italian-flag-bar mt-12 mb-6">
+                    <div class="italian-flag-green"></div>
+                    <div class="italian-flag-white"></div>
+                    <div class="italian-flag-red"></div>
+                </div>
+                
+                <div class="text-center text-gray-500 text-sm">
+                    <p>&copy; 2023 Mama Pizza. Tous droits réservés.</p>
+                    <p class="mt-2">
+                        <a href="#" class="hover:text-white transition-colors">Mentions légales</a> | 
+                        <a href="#" class="hover:text-white transition-colors">Politique de confidentialité</a>
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="hidden">
+        <nav class="sticky top-0 z-50 bg-white shadow-md">
+            <div class="italian-flag-bar">
+                <div class="italian-flag-green"></div>
+                <div class="italian-flag-white"></div>
+                <div class="italian-flag-red"></div>
+            </div>
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center">
+                    <h1 class="text-3xl font-bold text-red-700">Mama Pizza - Admin</h1>
+                </div>
+                <div>
+                    <button id="logout-btn" class="text-gray-700 hover:text-red-700 transition duration-300">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
+                    </button>
+                    <button id="back-to-site-btn" class="ml-4 text-gray-700 hover:text-red-700 transition duration-300">
+                        <i class="fas fa-arrow-left mr-2"></i>Retour au site
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mx-auto px-4 py-8">
+            <div class="mb-8">
+                <ul class="flex border-b">
+                    <li class="mr-1">
+                        <a href="#" class="admin-tab bg-white inline-block py-2 px-4 text-red-700 font-semibold border-l border-t border-r rounded-t" 
+                           data-target="reservations-content">Réservations</a>
+                    </li>
+                    <li class="mr-1">
+                        <a href="#" class="admin-tab bg-gray-200 inline-block py-2 px-4 text-gray-700 font-semibold border-l border-t border-r rounded-t"
+                           data-target="contacts-content">Messages</a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Reservations Content -->
+            <div id="reservations-content" class="admin-content">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="p-4 bg-red-700 text-white flex justify-between items-center">
+                        <h3 class="text-xl font-semibold">Réservations</h3>
+                        <div>
+                            <button id="refresh-reservations" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm">
+                                <i class="fas fa-sync-alt mr-1"></i>Actualiser
+                            </button>
+                            <button id="export-reservations" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm ml-2">
+                                <i class="fas fa-download mr-1"></i>Exporter CSV
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2">Date</th>
+                                    <th class="px-4 py-2">Heure</th>
+                                    <th class="px-4 py-2">Nom</th>
+                                    <th class="px-4 py-2">Téléphone</th>
+                                    <th class="px-4 py-2">Email</th>
+                                    <th class="px-4 py-2">Personnes</th>
+                                    <th class="px-4 py-2">Message</th>
+                                    <th class="px-4 py-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservations-table">
+                                <!-- Les réservations seront chargées ici -->
+                                <tr>
+                                    <td class="px-4 py-3">2023-06-15</td>
+                                    <td class="px-4 py-3">19:30</td>
+                                    <td class="px-4 py-3">Jean Dupont</td>
+                                    <td class="px-4 py-3">06 12 34 56 78</td>
+                                    <td class="px-4 py-3">jean@exemple.com</td>
+                                    <td class="px-4 py-3">4</td>
+                                    <td class="px-4 py-3">Table près de la fenêtre svp</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-blue-600 hover:text-blue-800" onclick="confirmReservation(1)">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800 ml-2" onclick="deleteReservation(1)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3">2023-06-16</td>
+                                    <td class="px-4 py-3">20:00</td>
+                                    <td class="px-4 py-3">Marie Martin</td>
+                                    <td class="px-4 py-3">07 23 45 67 89</td>
+                                    <td class="px-4 py-3">marie@exemple.com</td>
+                                    <td class="px-4 py-3">2</td>
+                                    <td class="px-4 py-3">Anniversaire</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-blue-600 hover:text-blue-800" onclick="confirmReservation(2)">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800 ml-2" onclick="deleteReservation(2)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3">2023-06-18</td>
+                                    <td class="px-4 py-3">12:30</td>
+                                    <td class="px-4 py-3">Paul Bernard</td>
+                                    <td class="px-4 py-3">06 34 56 78 90</td>
+                                    <td class="px-4 py-3">paul@exemple.com</td>
+                                    <td class="px-4 py-3">6</td>
+                                    <td class="px-4 py-3"></td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-blue-600 hover:text-blue-800" onclick="confirmReservation(3)">
+                                            <i class="fas fa-check-circle"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800 ml-2" onclick="deleteReservation(3)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contacts Content -->
+            <div id="contacts-content" class="admin-content hidden">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="p-4 bg-red-700 text-white flex justify-between items-center">
+                        <h3 class="text-xl font-semibold">Messages</h3>
+                        <div>
+                            <button id="refresh-contacts" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm">
+                                <i class="fas fa-sync-alt mr-1"></i>Actualiser
+                            </button>
+                            <button id="export-contacts" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm ml-2">
+                                <i class="fas fa-download mr-1"></i>Exporter CSV
+                            </button>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="px-4 py-2">Date</th>
+                                    <th class="px-4 py-2">Nom</th>
+                                    <th class="px-4 py-2">Email</th>
+                                    <th class="px-4 py-2">Sujet</th>
+                                    <th class="px-4 py-2">Message</th>
+                                    <th class="px-4 py-2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contacts-table">
+                                <!-- Les messages seront chargés ici -->
+                                <tr>
+                                    <td class="px-4 py-3">2023-06-10 15:45</td>
+                                    <td class="px-4 py-3">Sophie Petit</td>
+                                    <td class="px-4 py-3">sophie@exemple.com</td>
+                                    <td class="px-4 py-3">Question sur les allergènes</td>
+                                    <td class="px-4 py-3">Bonjour, proposez-vous des pizzas sans gluten ? Merci.</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-blue-600 hover:text-blue-800" onclick="replyToContact(1)">
+                                            <i class="fas fa-reply"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800 ml-2" onclick="deleteContact(1)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="px-4 py-3">2023-06-11 11:23</td>
+                                    <td class="px-4 py-3">Thomas Durand</td>
+                                    <td class="px-4 py-3">thomas@exemple.com</td>
+                                    <td class="px-4 py-3">Privatisation</td>
+                                    <td class="px-4 py-3">Je souhaiterais privatiser votre restaurant pour un événement. Est-ce possible ?</td>
+                                    <td class="px-4 py-3">
+                                        <button class="text-blue-600 hover:text-blue-800" onclick="replyToContact(2)">
+                                            <i class="fas fa-reply"></i>
+                                        </button>
+                                        <button class="text-red-600 hover:text-red-800 ml-2" onclick="deleteContact(2)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full relative z-10">
+            <button id="close-login-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-3xl font-bold mb-6 text-center">Connexion Admin</h2>
+            <form id="login-form" class="space-y-6">
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700 font-medium mb-2">Nom d'utilisateur</label>
+                    <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-gray-700 font-medium mb-2">Mot de passe</label>
+                    <input type="password" id="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                </div>
+                <div id="login-error" class="text-red-600 text-center hidden">
+                    Identifiants incorrects. Veuillez réessayer.
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn-primary px-6 py-2 rounded-md font-semibold">Se connecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Load FontAwesome asynchronously for performance -->
+    <script>
+        // Load FontAwesome asynchronously
+        (function() {
+            const css = document.createElement('link');
+            css.href = 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css';
+            css.rel = 'stylesheet';
+            css.type = 'text/css';
+            document.getElementsByTagName('head')[0].appendChild(css);
+        })();
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // Skip if it's an admin link
+                    if (this.id === 'admin-login-link' || this.id === 'admin-login-link-mobile') {
+                        return;
+                    }
+                    
+                    // Skip for admin panel tabs
+                    if (this.classList.contains('admin-tab')) {
+                        return;
+                    }
+                    
+                    e.preventDefault();
+                    
+                    // Close mobile menu if open
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenu.classList.remove('active');
+                    }
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // ===== MENU FILTERING =====
+            // Menu category filtering
+            const menuCategoryButtons = document.querySelectorAll('.menu-category-btn');
+            const menuSections = document.querySelectorAll('.menu-section');
+            
+            menuCategoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update button styles
+                    menuCategoryButtons.forEach(btn => {
+                        btn.classList.remove('bg-red-600', 'text-white');
+                        btn.classList.add('bg-white', 'text-red-600', 'border', 'border-red-600');
+                    });
+                    
+                    this.classList.remove('bg-white', 'text-red-600', 'border', 'border-red-600');
+                    this.classList.add('bg-red-600', 'text-white');
+                    
+                    // Get selected category
+                    const category = this.getAttribute('data-category');
+                    
+                    // Show/hide appropriate sections
+                    if (category === 'toutes') {
+                        menuSections.forEach(section => {
+                            section.classList.remove('hidden');
+                        });
+                    } else {
+                        menuSections.forEach(section => {
+                            if (section.getAttribute('data-category') === category) {
+                                section.classList.remove('hidden');
+                            } else {
+                                section.classList.add('hidden');
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // ===== FORM HANDLING =====
+            // Set min date for reservation
+            const dateInput = document.getElementById('date');
+            if (dateInput) {
+                const today = new Date();
+                const dd = String(today.getDate()).padStart(2, '0');
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const yyyy = today.getFullYear();
+                
+                const formattedToday = yyyy + '-' + mm + '-' + dd;
+                dateInput.setAttribute('min', formattedToday);
+            }
+            
+            // Form submission handling with Formspree
+            const reservationForm = document.getElementById('reservation-form');
+            if (reservationForm) {
+                // Demo version - replace with Formspree in production
+                reservationForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const successMsg = document.getElementById('reservation-success');
+                    successMsg.classList.remove('hidden');
+                    successMsg.classList.add('success-message');
+                    this.reset();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMsg.classList.add('hidden');
+                    }, 5000);
+                });
+            }
+            
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                // Demo version - replace with Formspree in production
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const successMsg = document.getElementById('contact-success');
+                    successMsg.classList.remove('hidden');
+                    successMsg.classList.add('success-message');
+                    this.reset();
+                    
+                    // Hide success message after 5 seconds
+                    setTimeout(() => {
+                        successMsg.classList.add('hidden');
+                    }, 5000);
+                });
+            }
+            
+            // ===== ADMIN PANEL =====
+            // Admin login handlers
+            const adminLoginLink = document.getElementById('admin-login-link');
+            const adminLoginLinkMobile = document.getElementById('admin-login-link-mobile');
+            const loginModal = document.getElementById('login-modal');
+            const closeLoginModalBtn = document.getElementById('close-login-modal');
+            const loginForm = document.getElementById('login-form');
+            const loginError = document.getElementById('login-error');
+            const mainContent = document.getElementById('main-content');
+            const adminPanel = document.getElementById('admin-panel');
+            const logoutBtn = document.getElementById('logout-btn');
+            const backToSiteBtn = document.getElementById('back-to-site-btn');
+            
+            // Show login modal
+            function showLoginModal() {
+                loginModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+            
+            // Hide login modal
+            function hideLoginModal() {
+                loginModal.classList.add('hidden');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+                loginForm.reset();
+                loginError.classList.add('hidden');
+            }
+            
+            // Admin login links
+            adminLoginLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showLoginModal();
+            });
+            
+            adminLoginLinkMobile.addEventListener('click', function(e) {
+                e.preventDefault();
+                mobileMenu.classList.remove('active');
+                showLoginModal();
+            });
+            
+            // Close login modal
+            closeLoginModalBtn.addEventListener('click', hideLoginModal);
+            
+            // Close modal when clicking outside
+            loginModal.addEventListener('click', function(e) {
+                if (e.target === loginModal) {
+                    hideLoginModal();
+                }
+            });
+            
+            // Login form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Demo credentials (in production, use server-side authentication)
+                if (username === 'admin' && password === 'pizza2023') {
+                    hideLoginModal();
+                    mainContent.classList.add('hidden');
+                    adminPanel.classList.remove('hidden');
+                    // Store login state (in production, use proper authentication)
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                } else {
+                    loginError.classList.remove('hidden');
+                }
+            });
+            
+            // Check if admin is already logged in
+            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+                mainContent.classList.add('hidden');
+                adminPanel.classList.remove('hidden');
+            }
+            
+            // Logout button
+            logoutBtn.addEventListener('click', function() {
+                adminPanel.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                sessionStorage.removeItem('adminLoggedIn');
+                window.scrollTo(0, 0);
+            });
+            
+            // Back to site button
+            backToSiteBtn.addEventListener('click', function() {
+                adminPanel.classList.add('hidden');
+                mainContent.classList.remove('hidden');
+                window.scrollTo(0, 0);
+            });
+            
+            // Admin panel tab switching
+            const adminTabs = document.querySelectorAll('.admin-tab');
+            const adminContents = document.querySelectorAll('.admin-content');
+            
+            adminTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Update tab styles
+                    adminTabs.forEach(t => {
+                        t.classList.remove('bg-white', 'text-red-700');
+                        t.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    
+                    this.classList.remove('bg-gray-200', 'text-gray-700');
+                    this.classList.add('bg-white', 'text-red-700');
+                    
+                    // Show selected content
+                    adminContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    
+                    document.getElementById(targetId).classList.remove('hidden');
+                });
+            });
+            
+            // Admin action functions (demo)
+            window.confirmReservation = function(id) {
+                alert(`Réservation #${id} confirmée`);
+            };
+            
+            window.deleteReservation = function(id) {
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')) {
+                    alert(`Réservation #${id} supprimée`);
+                    // In production, remove the row from the table
+                }
+            };
+            
+            window.replyToContact = function(id) {
+                window.open(`mailto:contact${id}@exemple.com`, '_blank');
+            };
+            
+            window.deleteContact = function(id) {
+                if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
+                    alert(`Message #${id} supprimé`);
+                    // In production, remove the row from the table
+                }
+            };
+            
+            // Export buttons (demo)
+            document.getElementById('export-reservations').addEventListener('click', function() {
+                alert('Fonction d\'export des réservations (démo)');
+                // In production, implement actual CSV export
+            });
+            
+            document.getElementById('export-contacts').addEventListener('click', function() {
+                alert('Fonction d\'export des messages (démo)');
+                // In production, implement actual CSV export
+            });
+            
+            // Check for URL hash for form success messages
+            const hash = window.location.hash;
+            if (hash === '#reservation-success') {
+                const successMsg = document.getElementById('reservation-success');
+                successMsg.classList.remove('hidden');
+                successMsg.classList.add('success-message');
+                
+                // Scroll to reservation section
+                document.getElementById('reservation').scrollIntoView();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMsg.classList.add('hidden');
+                }, 5000);
+            } else if (hash === '#contact-success') {
+                const successMsg = document.getElementById('contact-success');
+                successMsg.classList.remove('hidden');
+                successMsg.classList.add('success-message');
+                
+                // Scroll to contact section
+                document.getElementById('contact').scrollIntoView();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMsg.classList.add('hidden');
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
