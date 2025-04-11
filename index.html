@@ -4,36 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mama Pizza - Restaurant Italien à Montlhéry</title>
-    <meta name="description" content="Mama Pizza, restaurant italien authentique à Montlhéry. Découvrez nos pizzas cuites au feu de bois, nos pâtes fraîches et notre ambiance chaleureuse. Réservez votre table dès maintenant !">
-    <meta name="keywords" content="restaurant italien, pizza, Montlhéry, cuisine italienne, pizzeria, pâtes, réservation restaurant">
-    <meta name="author" content="Mama Pizza">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Mama Pizza - Restaurant Italien à Montlhéry">
-    <meta property="og:description" content="Cuisine italienne authentique, pizzas au feu de bois et ambiance chaleureuse à Montlhéry. Réservez votre table !">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
-    <meta property="og:url" content="https://mamapizza.fr">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="canonical" href="https://mamapizza.fr">
+    <meta name="description" content="Mama Pizza, restaurant italien authentique à Montlhéry. Découvrez nos pizzas cuites au feu de bois, nos pâtes fraîches et notre ambiance chaleureuse.">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <style>
+        /* Variables pour les thèmes */
         :root {
             --primary: #D32F2F;
             --secondary: #4CAF50;
             --accent: #FFC107;
             --background: #FFFBF5;
+            --card-bg: #FFFFFF;
             --text-dark: #333333;
             --text-light: #FFFFFF;
+            --border-color: #e2e8f0;
+            --header-bg: #FFFFFF;
+            --footer-bg: #1a202c;
+            --footer-text: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --admin-bg: #f7f7f7;
+            --admin-card: #ffffff;
+            --admin-text: #333333;
+            --chart-grid: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Mode sombre */
+        body.dark-mode {
+            --background: #1A1A2E;
+            --card-bg: #252A41;
+            --text-dark: #E0E0E0;
+            --border-color: #364156;
+            --header-bg: #252A41;
+            --footer-bg: #0F172A;
+            --footer-text: #E0E0E0;
+            --admin-bg: #121212;
+            --admin-card: #1e1e1e;
+            --admin-text: #ffffff;
+            --chart-grid: rgba(255, 255, 255, 0.1);
         }
         
         body {
             font-family: 'Montserrat', sans-serif;
             color: var(--text-dark);
             background-color: var(--background);
-            overflow-x: hidden;
+            transition: background-color 0.3s ease;
         }
         
         h1, h2, h3, h4, h5 {
@@ -44,11 +60,16 @@
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .menu-item {
             transition: transform 0.3s ease;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
         }
         
         .menu-item:hover {
@@ -98,119 +119,125 @@
             background-color: #ce2b37;
         }
         
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--primary);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover:after {
-            width: 100%;
-        }
-        
-        .section-divider {
-            position: relative;
-            height: 80px;
-            margin: 20px 0;
-            overflow: hidden;
-            background: transparent;
-        }
-        
-        .section-divider svg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-        
-        .floating {
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .testimonial-card {
-            transition: all 0.3s ease;
-        }
-        
-        .testimonial-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-        }
-        
-        .form-input {
-            transition: border-color 0.3s ease;
-        }
-        
-        .form-input:focus {
-            border-color: var(--primary);
-        }
-        
-        /* Admin Panel Styles */
         .admin-panel {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            z-index: 100;
+            background-color: var(--admin-bg);
+            z-index: 1000;
             overflow-y: auto;
             display: none;
+            color: var(--admin-text);
         }
         
-        .admin-panel.active {
-            display: block;
+        .admin-card {
+            background-color: var(--admin-card);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
         }
         
         .chart-container {
             position: relative;
-            margin: auto;
             height: 300px;
-            width: 100%;
+            margin-bottom: 20px;
+            background-color: var(--admin-card);
+            border-radius: 8px;
+            padding: 15px;
         }
         
-        .stat-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            padding: 1.5rem;
+        .stats-label {
+            color: var(--admin-text);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Switch pour le mode sombre */
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        /* Notification badge */
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #D32F2F;
+            color: white;
+            font-size: 0.75rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tab-button {
+            padding: 10px 15px;
+            background-color: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--admin-text);
+            font-weight: 600;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
         
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-        }
-        
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .mobile-menu {
-                display: none;
-            }
-            
-            .mobile-menu.active {
-                display: flex;
-            }
+        .tab-button.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
         }
     </style>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-white shadow-md">
+    <nav class="sticky top-0 z-50 bg-white shadow-md" style="background-color: var(--header-bg);">
         <div class="italian-flag-bar">
             <div class="italian-flag-green"></div>
             <div class="italian-flag-white"></div>
@@ -222,18 +249,26 @@
                 <span class="ml-2 text-green-600 italic">Tradizione Italiana</span>
             </div>
             
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex space-x-8">
-                <a href="#accueil" class="nav-link font-medium">Accueil</a>
-                <a href="#menu" class="nav-link font-medium">Menu</a>
-                <a href="#a-propos" class="nav-link font-medium">À Propos</a>
-                <a href="#galerie" class="nav-link font-medium">Galerie</a>
-                <a href="#reservation" class="nav-link font-medium">Réservation</a>
-                <a href="#contact" class="nav-link font-medium">Contact</a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#accueil" class="font-medium hover:text-red-600 transition-colors">Accueil</a>
+                <a href="#menu" class="font-medium hover:text-red-600 transition-colors">Menu</a>
+                <a href="#a-propos" class="font-medium hover:text-red-600 transition-colors">À Propos</a>
+                <a href="#galerie" class="font-medium hover:text-red-600 transition-colors">Galerie</a>
+                <a href="#reservation" class="font-medium hover:text-red-600 transition-colors">Réservation</a>
+                <a href="#contact" class="font-medium hover:text-red-600 transition-colors">Contact</a>
+                <div class="ml-4 flex items-center">
+                    <label class="theme-switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
             
             <!-- Mobile Navigation Button -->
-            <div class="md:hidden">
+            <div class="md:hidden flex items-center">
+                <button id="theme-toggle-mobile" class="p-2 mr-2">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -243,7 +278,7 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="mobile-menu md:hidden flex flex-col bg-white w-full py-4 px-8 shadow-lg">
+        <div id="mobile-menu" class="hidden md:hidden flex flex-col w-full py-4 px-8 shadow-lg" style="background-color: var(--card-bg);">
             <a href="#accueil" class="py-2 font-medium">Accueil</a>
             <a href="#menu" class="py-2 font-medium">Menu</a>
             <a href="#a-propos" class="py-2 font-medium">À Propos</a>
@@ -254,21 +289,19 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="accueil" class="hero-section min-h-screen flex items-center justify-center text-center">
-        <div class="container mx-auto px-4">
-            <div class="max-w-3xl mx-auto">
-                <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 floating">Mama Pizza - Restaurant Italien Authentique à Montlhéry</h1>
-                <p class="text-xl md:text-2xl text-white mb-6">La véritable tradition italienne à Montlhéry</p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <a href="#menu" class="btn-primary px-6 py-3 rounded-full font-semibold text-lg">Découvrir notre menu</a>
-                    <a href="#reservation" class="bg-white text-red-700 px-6 py-3 rounded-full font-semibold text-lg transition-all hover:bg-gray-100 hover:transform hover:-translate-y-2">Réserver une table</a>
-                </div>
+    <section id="accueil" class="hero-section">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">Mama Pizza</h1>
+            <p class="text-xl md:text-2xl text-white mb-6">La véritable tradition italienne à Montlhéry</p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#menu" class="btn-primary px-6 py-3 rounded-full font-semibold text-lg">Découvrir notre menu</a>
+                <a href="#reservation" class="bg-white text-red-700 px-6 py-3 rounded-full font-semibold text-lg transition-all hover:bg-gray-100 hover:transform hover:-translate-y-1">Réserver une table</a>
             </div>
         </div>
     </section>
 
     <!-- About Us Section -->
-    <section id="a-propos" class="py-16 bg-white">
+    <section id="a-propos" class="py-16" style="background-color: var(--card-bg);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4">Notre Histoire</h2>
@@ -277,20 +310,19 @@
             
             <div class="flex flex-col md:flex-row items-center gap-12">
                 <div class="md:w-1/2">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurant Mama Pizza" class="rounded-lg shadow-xl w-full h-auto" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurant Mama Pizza" class="rounded-lg shadow-xl w-full h-auto">
                 </div>
                 <div class="md:w-1/2">
                     <h3 class="text-3xl font-semibold mb-4">Bienvenue chez Mama Pizza</h3>
-                    <p class="text-gray-700 mb-6">Depuis son ouverture, Mama Pizza perpétue la tradition culinaire italienne authentique au cœur de Montlhéry. Notre passion pour les saveurs de l'Italie se retrouve dans chacun de nos plats préparés avec des ingrédients frais et de qualité.</p>
-                    <p class="text-gray-700 mb-6">Notre restaurant offre un cadre chaleureux idéal pour les repas en famille ou les dîners romantiques. Chaque détail, de la décoration aux recettes transmises de génération en génération, est pensé pour vous offrir une véritable expérience italienne.</p>
-                    <p class="text-gray-700 mb-8">Notre équipe, composée de passionnés de gastronomie italienne, met tout son savoir-faire dans la préparation de pizzas cuites au feu de bois, de pâtes fraîches et de desserts traditionnels qui raviront vos papilles.</p>
-                    <div class="flex items-center gap-4">
+                    <p class="mb-6">Depuis son ouverture, Mama Pizza perpétue la tradition culinaire italienne authentique au cœur de Montlhéry. Notre passion pour les saveurs de l'Italie se retrouve dans chacun de nos plats préparés avec des ingrédients frais et de qualité.</p>
+                    <p class="mb-6">Notre restaurant offre un cadre chaleureux idéal pour les repas en famille ou les dîners romantiques. Chaque détail, de la décoration aux recettes transmises de génération en génération, est pensé pour vous offrir une véritable expérience italienne.</p>
+                    <div class="flex items-center gap-4 mt-6">
                         <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
                             <i class="fas fa-utensils text-red-600 text-2xl"></i>
                         </div>
                         <div>
                             <h4 class="font-bold text-lg">Cuisine Authentique</h4>
-                            <p class="text-gray-600">Recettes traditionnelles italiennes</p>
+                            <p>Recettes traditionnelles italiennes</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-4 mt-4">
@@ -299,7 +331,7 @@
                         </div>
                         <div>
                             <h4 class="font-bold text-lg">Ingrédients Frais</h4>
-                            <p class="text-gray-600">Produits de qualité supérieure</p>
+                            <p>Produits de qualité supérieure</p>
                         </div>
                     </div>
                 </div>
@@ -308,67 +340,67 @@
     </section>
 
     <!-- Menu Section -->
-    <section id="menu" class="py-16 bg-gray-50">
+    <section id="menu" class="py-16" style="background-color: var(--background);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4">Notre Menu</h2>
                 <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="text-gray-600 max-w-2xl mx-auto">Découvrez nos spécialités italiennes préparées avec passion et savoir-faire</p>
+                <p class="max-w-2xl mx-auto">Découvrez nos spécialités italiennes préparées avec passion et savoir-faire</p>
             </div>
             
             <!-- Menu Categories -->
             <div class="flex flex-wrap justify-center gap-4 mb-12">
-                <button class="menu-category-btn px-6 py-2 rounded-full bg-red-600 text-white font-medium" data-category="all">Toutes</button>
-                <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="entrees">Entrées</button>
-                <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pizzas">Pizzas</button>
-                <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pates">Pâtes</button>
-                <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="desserts">Desserts</button>
-                <button class="menu-category-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="boissons">Boissons</button>
+                <button class="menu-filter px-6 py-2 rounded-full bg-red-600 text-white font-medium" data-category="all">Toutes</button>
+                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="entrees">Entrées</button>
+                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pizzas">Pizzas</button>
+                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pates">Pâtes</button>
+                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="desserts">Desserts</button>
+                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="boissons">Boissons</button>
             </div>
 
             <!-- Entrées -->
-            <div class="mb-16 menu-section" data-category="entrees">
+            <div class="menu-category mb-16" data-category="entrees">
                 <h3 class="text-3xl font-semibold mb-8 text-center">Entrées</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://img.cuisineaz.com/1024x1024/2015/01/07/i96142-bruschetta-a-la-tomate.jpg" alt="Bruschetta" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://img.cuisineaz.com/1024x1024/2015/01/07/i96142-bruschetta-a-la-tomate.jpg" alt="Bruschetta" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Bruschetta Classica</h4>
                                 <span class="text-red-600 font-bold">7,50 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Pain grillé à l'ail, tomates fraîches, basilic et huile d'olive extra vierge</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Pain grillé à l'ail, tomates fraîches, basilic et huile d'olive extra vierge</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-pepper-hot mr-1 text-red-500"></i>
                                 <span>Légèrement épicé</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://www.lilvienna.com/wp-content/uploads/Recipe-Classic-Italian-Caprese-Salad.jpg" alt="Caprese" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://assets.epicurious.com/photos/628ba560cf19fbfe9137ffa4/1:1/w_2560%2Cc_limit/Caprese_RECIPE_051922_34205.jpg" alt="Caprese" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Insalata Caprese</h4>
                                 <span class="text-red-600 font-bold">8,90 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Tomates, mozzarella di bufala, basilic frais et réduction balsamique</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Tomates, mozzarella di bufala, basilic frais et réduction balsamique</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-leaf mr-1 text-green-500"></i>
                                 <span>Végétarien</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Carpaccio di Manzo</h4>
                                 <span class="text-red-600 font-bold">11,50 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Fines tranches de bœuf cru, parmesan, roquette et huile de truffe</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Fines tranches de bœuf cru, parmesan, roquette et huile de truffe</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-star mr-1 text-yellow-500"></i>
                                 <span>Spécialité du chef</span>
                             </div>
@@ -378,95 +410,65 @@
             </div>
             
             <!-- Pizzas -->
-            <div class="mb-16 menu-section" data-category="pizzas">
+            <div class="menu-category mb-16" data-category="pizzas">
                 <h3 class="text-3xl font-semibold mb-8 text-center">Pizzas</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://www.allrecipes.com/thmb/2rQA_OlnLbhidei70glz6HCCYAs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/1453815-authentic-pizza-margherita-Cynthia-Ross-4x3-1-7410c69552274163a9049342b60c22ff.jpg" alt="Margherita" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://www.allrecipes.com/thmb/2rQA_OlnLbhidei70glz6HCCYAs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/1453815-authentic-pizza-margherita-Cynthia-Ross-4x3-1-7410c69552274163a9049342b60c22ff.jpg" alt="Margherita" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Pizza Margherita</h4>
                                 <span class="text-red-600 font-bold">10,90 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Sauce tomate, mozzarella fior di latte, basilic frais et huile d'olive</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Sauce tomate, mozzarella fior di latte, basilic frais et huile d'olive</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-leaf mr-1 text-green-500"></i>
                                 <span>Végétarien</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Regina" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Regina" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Pizza Regina</h4>
                                 <span class="text-red-600 font-bold">12,90 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Sauce tomate, mozzarella, jambon cuit italien, champignons frais et origan</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Sauce tomate, mozzarella, jambon cuit italien, champignons frais et origan</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-heart mr-1 text-red-500"></i>
                                 <span>Très populaire</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Diavola" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Diavola" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Pizza Diavola</h4>
                                 <span class="text-red-600 font-bold">13,50 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Sauce tomate, mozzarella, spianata piccante, poivrons et piment</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Sauce tomate, mozzarella, spianata piccante, poivrons et piment</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-pepper-hot mr-1 text-red-500"></i>
                                 <span>Épicé</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://www.insidetherustickitchen.com/wp-content/uploads/2020/07/Quattro-formaggi-pizza-square-Inside-the-rustic-kitchen.jpg" alt="Quattro Formaggi" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Pizza_quattro_formaggi_at_restaurant%2C_Chalk_Farm_Road%2C_London.jpg" alt="Quattro Formaggi" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Quattro Formaggi</h4>
                                 <span class="text-red-600 font-bold">14,50 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Sauce tomate, mozzarella, gorgonzola, parmesan, pecorino et origan</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Sauce tomate, mozzarella, gorgonzola, parmesan, pecorino et origan</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-leaf mr-1 text-green-500"></i>
                                 <span>Végétarien</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Prosciutto" class="w-full h-48 object-cover" loading="lazy">
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Pizza Prosciutto</h4>
-                                <span class="text-red-600 font-bold">15,90 €</span>
-                            </div>
-                            <p class="text-gray-600 mb-4">Sauce tomate, mozzarella di bufala, jambon de Parme 18 mois, roquette et parmesan</p>
-                            <div class="flex items-center text-gray-500 text-sm">
-                                <i class="fas fa-star mr-1 text-yellow-500"></i>
-                                <span>Spécialité du chef</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tartufo" class="w-full h-48 object-cover" loading="lazy">
-                        <div class="p-6">
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Pizza Tartufo</h4>
-                                <span class="text-red-600 font-bold">17,90 €</span>
-                            </div>
-                            <p class="text-gray-600 mb-4">Base crème, mozzarella, champignons, crème de truffe, roquette et copeaux de parmesan</p>
-                            <div class="flex items-center text-gray-500 text-sm">
-                                <i class="fas fa-gem mr-1 text-purple-500"></i>
-                                <span>Produit premium</span>
                             </div>
                         </div>
                     </div>
@@ -474,48 +476,48 @@
             </div>
             
             <!-- Pâtes -->
-            <div class="mb-16 menu-section" data-category="pates">
+            <div class="menu-category mb-16" data-category="pates">
                 <h3 class="text-3xl font-semibold mb-8 text-center">Pâtes</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carbonara" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carbonara" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Spaghetti Carbonara</h4>
                                 <span class="text-red-600 font-bold">14,50 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Spaghetti, guanciale, œuf, pecorino romano et poivre noir</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Spaghetti, guanciale, œuf, pecorino romano et poivre noir</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-heart mr-1 text-red-500"></i>
                                 <span>Très populaire</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bolognese" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bolognese" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Tagliatelle Bolognese</h4>
                                 <span class="text-red-600 font-bold">13,90 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Tagliatelles fraîches, ragù à la bolognaise mijoté pendant 6 heures et parmesan</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Tagliatelles fraîches, ragù à la bolognaise mijoté pendant 6 heures et parmesan</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-utensils mr-1 text-gray-500"></i>
                                 <span>Classique italien</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pesto" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pesto" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Linguine al Pesto</h4>
                                 <span class="text-red-600 font-bold">12,90 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Linguine, pesto de basilic maison, pignons de pin et parmesan</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Linguine, pesto de basilic maison, pignons de pin et parmesan</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-leaf mr-1 text-green-500"></i>
                                 <span>Végétarien</span>
                             </div>
@@ -525,50 +527,101 @@
             </div>
             
             <!-- Desserts -->
-            <div class="menu-section" data-category="desserts">
+            <div class="menu-category mb-16" data-category="desserts">
                 <h3 class="text-3xl font-semibold mb-8 text-center">Desserts</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tiramisu" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://www.recipesfromitaly.com/wp-content/uploads/2019/10/tiramisu-authentic-italian-recipe-1x1-1200x1200-1.jpg" alt="Tiramisu" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Tiramisu</h4>
                                 <span class="text-red-600 font-bold">6,90 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Biscuits, mascarpone, café, cacao et amaretto</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Biscuits, mascarpone, café, cacao et amaretto</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-star mr-1 text-yellow-500"></i>
                                 <span>Fait maison</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://www.cookingclassy.com/wp-content/uploads/2021/05/panna-cotta-01-500x500.jpg" alt="Panna Cotta" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://www.cookingclassy.com/wp-content/uploads/2021/05/panna-cotta-01-500x500.jpg" alt="Panna Cotta" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Panna Cotta</h4>
                                 <span class="text-red-600 font-bold">6,50 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Crème, vanille, coulis de fruits rouges ou caramel au choix</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Crème, vanille, coulis de fruits rouges ou caramel au choix</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-heart mr-1 text-red-500"></i>
                                 <span>Très populaire</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden">
-                        <img src="https://www.homecookingadventure.com/wp-content/uploads/2022/01/cannoli_siciliani_main.jpg" alt="Cannoli" class="w-full h-48 object-cover" loading="lazy">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://www.homecookingadventure.com/wp-content/uploads/2022/01/cannoli_siciliani_main.jpg" alt="Cannoli" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
                                 <h4 class="text-xl font-semibold">Cannoli Siciliani</h4>
                                 <span class="text-red-600 font-bold">7,50 €</span>
                             </div>
-                            <p class="text-gray-600 mb-4">Tubes croustillants, crème de ricotta sucrée et pistaches ou pépites de chocolat</p>
-                            <div class="flex items-center text-gray-500 text-sm">
+                            <p class="mb-4">Tubes croustillants, crème de ricotta sucrée et pistaches ou pépites de chocolat</p>
+                            <div class="flex items-center text-sm">
                                 <i class="fas fa-utensils mr-1 text-gray-500"></i>
                                 <span>Spécialité sicilienne</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Boissons -->
+            <div class="menu-category mb-16" data-category="boissons">
+                <h3 class="text-3xl font-semibold mb-8 text-center">Boissons</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://www.vinatis.com/99565-detail_default/pack-trio-chianti-barolo-pouilles.png" alt="Vins italiens" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="text-xl font-semibold">Vins Italiens</h4>
+                                <span class="text-red-600 font-bold">à partir de 4,50 €</span>
+                            </div>
+                            <p class="mb-4">Sélection de vins italiens - Chianti, Barolo, Prosecco</p>
+                            <div class="flex items-center text-sm">
+                                <i class="fas fa-wine-glass-alt mr-1 text-purple-500"></i>
+                                <span>Sélection régionale</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://cookieandkate.com/images/2019/05/classic-aperol-spritz-recipe-4.jpg" alt="Cocktail italien" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="text-xl font-semibold">Aperol Spritz</h4>
+                                <span class="text-red-600 font-bold">7,90 €</span>
+                            </div>
+                            <p class="mb-4">Cocktail traditionnel italien - Aperol, Prosecco, eau gazeuse</p>
+                            <div class="flex items-center text-sm">
+                                <i class="fas fa-cocktail mr-1 text-orange-500"></i>
+                                <span>Spécialité de la maison</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://produits.bienmanger.com/39994-0w470h470_San_Pellegrino_Sparkling_Mineral_Water_From_Italy.jpg" alt="Eau minérale" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="text-xl font-semibold">Eaux Minérales</h4>
+                                <span class="text-red-600 font-bold">3,50 €</span>
+                            </div>
+                            <p class="mb-4">San Pellegrino, Acqua Panna</p>
+                            <div class="flex items-center text-sm">
+                                <i class="fas fa-tint mr-1 text-blue-500"></i>
+                                <span>Importé d'Italie</span>
                             </div>
                         </div>
                     </div>
@@ -578,159 +631,77 @@
     </section>
 
     <!-- Gallery Section -->
-    <section id="galerie" class="py-16 bg-white">
+    <section id="galerie" class="py-16" style="background-color: var(--card-bg);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4">Notre Galerie</h2>
                 <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="text-gray-600 max-w-2xl mx-auto">Découvrez l'ambiance chaleureuse de notre restaurant et nos délicieuses créations culinaires</p>
+                <p class="max-w-2xl mx-auto">Découvrez l'ambiance chaleureuse de notre restaurant et nos délicieuses créations culinaires</p>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1579684947550-22e945225d9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1579684947550-22e945225d9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant" class="w-full h-64 object-cover">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant intérieur" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant intérieur" class="w-full h-64 object-cover">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-64 object-cover">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pâtes" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pâtes" class="w-full h-64 object-cover">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tiramisu" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tiramisu" class="w-full h-64 object-cover">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://www.insidetherustickitchen.com/wp-content/uploads/2020/07/Quattro-formaggi-pizza-square-Inside-the-rustic-kitchen.jpg" alt="Pizza quatre fromages" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Pizza_quattro_formaggi_at_restaurant%2C_Chalk_Farm_Road%2C_London.jpg" alt="Pizza quatre fromages" class="w-full h-64 object-cover">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover" loading="lazy">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">Avis de nos clients</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="text-gray-600 max-w-2xl mx-auto">Ce que nos clients pensent de leur expérience chez Mama Pizza</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-500">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="ml-2 text-gray-600">5.0</span>
-                    </div>
-                    <p class="text-gray-700 mb-6">"Les meilleures pizzas de la région ! La pâte est fine et croustillante, les ingrédients sont frais et de qualité. L'ambiance est chaleureuse et le service impeccable. Je recommande vivement !"</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
-                            <span class="text-gray-600 font-bold">SL</span>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-semibold">Sophie L.</h4>
-                            <p class="text-gray-500 text-sm">Client fidèle</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-500">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <span class="ml-2 text-gray-600">5.0</span>
-                    </div>
-                    <p class="text-gray-700 mb-6">"Soirée romantique parfaite ! Les pâtes à la truffe sont un délice et le tiramisu est l'un des meilleurs que j'ai goûtés. L'ambiance était idéale pour notre anniversaire de mariage. Nous reviendrons !"</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
-                            <span class="text-gray-600 font-bold">TD</span>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-semibold">Thomas D.</h4>
-                            <p class="text-gray-500 text-sm">Client régulier</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card bg-white p-8 rounded-lg shadow-md">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-500">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="ml-2 text-gray-600">4.5</span>
-                    </div>
-                    <p class="text-gray-700 mb-6">"Repas en famille très agréable ! Les enfants ont adoré leurs pizzas et le personnel a été très attentionné. Le rapport qualité-prix est excellent et l'ambiance typiquement italienne est un vrai plus."</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
-                            <span class="text-gray-600 font-bold">CM</span>
-                        </div>
-                        <div class="ml-4">
-                            <h4 class="font-semibold">Camille M.</h4>
-                            <p class="text-gray-500 text-sm">Client satisfait</p>
-                        </div>
-                    </div>
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Reservation Section -->
-    <section id="reservation" class="py-16 bg-white">
+    <section id="reservation" class="py-16" style="background-color: var(--background);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4">Réservez votre table</h2>
                 <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="text-gray-600 max-w-2xl mx-auto">Réservez facilement votre table pour profiter d'un moment italien authentique</p>
+                <p class="max-w-2xl mx-auto">Réservez facilement votre table pour profiter d'un moment italien authentique</p>
             </div>
             
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="lg:w-1/2">
-                    <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Table réservation" class="rounded-lg shadow-xl w-full h-auto" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Table réservation" class="rounded-lg shadow-xl w-full h-auto">
                 </div>
-                <div class="lg:w-1/2 bg-gray-50 p-8 rounded-lg shadow-md">
+                <div class="lg:w-1/2 p-8 rounded-lg shadow-md" style="background-color: var(--card-bg);">
                     <form id="reservation-form" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="name" class="block text-gray-700 font-medium mb-2">Nom</label>
-                                <input type="text" id="name" name="name" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                <label for="name" class="block font-medium mb-2">Nom</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                             </div>
                             <div>
-                                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
-                                <input type="email" id="email" name="email" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                <label for="email" class="block font-medium mb-2">Email</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                             </div>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="phone" class="block text-gray-700 font-medium mb-2">Téléphone</label>
-                                <input type="tel" id="phone" name="phone" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                <label for="phone" class="block font-medium mb-2">Téléphone</label>
+                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                             </div>
                             <div>
-                                <label for="guests" class="block text-gray-700 font-medium mb-2">Nombre de personnes</label>
-                                <select id="guests" name="guests" class="form-select w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                <label for="guests" class="block font-medium mb-2">Nombre de personnes</label>
+                                <select id="guests" name="guests" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                                     <option value="">Sélectionnez</option>
                                     <option value="1">1 personne</option>
                                     <option value="2">2 personnes</option>
@@ -745,12 +716,12 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="date" class="block text-gray-700 font-medium mb-2">Date</label>
-                                <input type="date" id="date" name="date" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                <label for="date" class="block font-medium mb-2">Date</label>
+                                <input type="date" id="date" name="date" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                             </div>
                             <div>
-                                <label for="time" class="block text-gray-700 font-medium mb-2">Heure</label>
-                                <select id="time" name="time" class="form-select w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                <label for="time" class="block font-medium mb-2">Heure</label>
+                                <select id="time" name="time" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                                     <option value="">Sélectionnez</option>
                                     <option value="12:00">12:00</option>
                                     <option value="12:30">12:30</option>
@@ -767,8 +738,8 @@
                         </div>
                         
                         <div>
-                            <label for="message" class="block text-gray-700 font-medium mb-2">Demande spéciale (optionnel)</label>
-                            <textarea id="message" name="message" rows="4" class="form-textarea w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"></textarea>
+                            <label for="message" class="block font-medium mb-2">Demande spéciale (optionnel)</label>
+                            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);"></textarea>
                         </div>
                         
                         <div class="text-center">
@@ -781,17 +752,17 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-16 bg-gray-50">
+    <section id="contact" class="py-16" style="background-color: var(--card-bg);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-bold mb-4">Contactez-nous</h2>
                 <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="text-gray-600 max-w-2xl mx-auto">N'hésitez pas à nous contacter pour toute information</p>
+                <p class="max-w-2xl mx-auto">N'hésitez pas à nous contacter pour toute information</p>
             </div>
             
             <div class="flex flex-col lg:flex-row gap-12">
                 <div class="lg:w-1/2">
-                    <div class="bg-white p-8 rounded-lg shadow-md h-full">
+                    <div class="p-8 rounded-lg shadow-md h-full" style="background-color: var(--card-bg);">
                         <h3 class="text-2xl font-semibold mb-6">Nos coordonnées</h3>
                         
                         <div class="flex items-start mb-6">
@@ -800,7 +771,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg mb-1">Adresse</h4>
-                                <p class="text-gray-600">25 Rue de la Liberté, 91310 Montlhéry, France</p>
+                                <p>25 Rue de la Liberté, 91310 Montlhéry, France</p>
                             </div>
                         </div>
                         
@@ -810,7 +781,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg mb-1">Téléphone</h4>
-                                <p class="text-gray-600">+33 1 23 45 67 89</p>
+                                <p>+33 1 23 45 67 89</p>
                             </div>
                         </div>
                         
@@ -820,7 +791,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg mb-1">Email</h4>
-                                <p class="text-gray-600">contact@mamapizza.fr</p>
+                                <p>contact@mamapizza.fr</p>
                             </div>
                         </div>
                         
@@ -830,8 +801,8 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-lg mb-1">Horaires d'ouverture</h4>
-                                <p class="text-gray-600">Mardi - Dimanche : 12h00 - 14h30 | 19h00 - 22h30</p>
-                                <p class="text-gray-600">Fermé le lundi</p>
+                                <p>Mardi - Dimanche : 12h00 - 14h30 | 19h00 - 22h30</p>
+                                <p>Fermé le lundi</p>
                             </div>
                         </div>
                         
@@ -851,28 +822,28 @@
                 </div>
                 
                 <div class="lg:w-1/2">
-                    <div class="bg-white p-8 rounded-lg shadow-md">
+                    <div class="p-8 rounded-lg shadow-md" style="background-color: var(--card-bg);">
                         <h3 class="text-2xl font-semibold mb-6">Envoyez-nous un message</h3>
                         <form id="contact-form" class="space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="contact-name" class="block text-gray-700 font-medium mb-2">Nom</label>
-                                    <input type="text" id="contact-name" name="contact-name" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                    <label for="contact-name" class="block font-medium mb-2">Nom</label>
+                                    <input type="text" id="contact-name" name="contact-name" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                                 </div>
                                 <div>
-                                    <label for="contact-email" class="block text-gray-700 font-medium mb-2">Email</label>
-                                    <input type="email" id="contact-email" name="contact-email" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                    <label for="contact-email" class="block font-medium mb-2">Email</label>
+                                    <input type="email" id="contact-email" name="contact-email" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                                 </div>
                             </div>
                             
                             <div>
-                                <label for="contact-subject" class="block text-gray-700 font-medium mb-2">Sujet</label>
-                                <input type="text" id="contact-subject" name="contact-subject" class="form-input w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                                <label for="contact-subject" class="block font-medium mb-2">Sujet</label>
+                                <input type="text" id="contact-subject" name="contact-subject" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                             </div>
                             
                             <div>
-                                <label for="contact-message" class="block text-gray-700 font-medium mb-2">Message</label>
-                                <textarea id="contact-message" name="contact-message" rows="5" class="form-textarea w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required></textarea>
+                                <label for="contact-message" class="block font-medium mb-2">Message</label>
+                                <textarea id="contact-message" name="contact-message" rows="5" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required></textarea>
                             </div>
                             
                             <div class="text-center">
@@ -884,7 +855,7 @@
             </div>
             
             <div class="mt-12">
-                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="rounded-lg shadow-md overflow-hidden">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21036.4063414895!2d2.2652242!3d48.638055699999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e5d73c4a6a7c83%3A0x402f33305f35aa0!2s91310%20Montlh%C3%A9ry!5e0!3m2!1sfr!2sfr!4v1675260211096!5m2!1sfr!2sfr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
@@ -892,12 +863,12 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
+    <footer class="text-white py-12" style="background-color: var(--footer-bg);">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between">
                 <div class="mb-8 md:mb-0">
                     <h3 class="text-3xl font-bold text-red-500 mb-4">Mama Pizza</h3>
-                    <p class="max-w-xs text-gray-400">Cuisine italienne authentique et traditionnelle à Montlhéry. Un voyage gustatif en Italie sans quitter la France.</p>
+                    <p class="max-w-xs" style="color: var(--footer-text);">Cuisine italienne authentique et traditionnelle à Montlhéry. Un voyage gustatif en Italie sans quitter la France.</p>
                     <div class="mt-6 flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-white transition-colors">
                             <i class="fab fa-facebook-f text-xl"></i>
@@ -980,24 +951,31 @@
     <!-- Admin Panel -->
     <div id="admin-panel" class="admin-panel">
         <div class="container mx-auto px-4 py-8">
+            <!-- Admin Header -->
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-red-700">Mama Pizza - Administration</h2>
-                <button id="close-admin" class="text-gray-700 hover:text-red-700 transition-colors focus:outline-none">
-                    <i class="fas fa-times text-2xl"></i>
-                </button>
+                <h2 class="text-3xl font-bold">Mama Pizza - Administration</h2>
+                <div class="flex items-center">
+                    <label class="theme-switch mr-4">
+                        <input type="checkbox" id="admin-theme-toggle">
+                        <span class="slider"></span>
+                    </label>
+                    <button id="close-admin" class="p-2 rounded hover:bg-gray-200">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
             </div>
 
             <!-- Login Form -->
-            <div id="admin-login" class="max-w-md mx-auto bg-white rounded-lg shadow-md p-8">
-                <h3 class="text-2xl font-bold mb-6 text-center">Connexion</h3>
+            <div id="admin-login" class="max-w-md mx-auto p-8 rounded-lg shadow-md" style="background-color: var(--admin-card);">
+                <h3 class="text-2xl font-bold mb-6 text-center">Connexion Administrateur</h3>
                 <form id="login-form" class="space-y-6">
                     <div>
-                        <label for="username" class="block text-gray-700 font-medium mb-2">Nom d'utilisateur</label>
-                        <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        <label for="username" class="block font-medium mb-2">Nom d'utilisateur</label>
+                        <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                     </div>
                     <div>
-                        <label for="password" class="block text-gray-700 font-medium mb-2">Mot de passe</label>
-                        <input type="password" id="password" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500" required>
+                        <label for="password" class="block font-medium mb-2">Mot de passe</label>
+                        <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn-primary px-6 py-2 rounded-md font-semibold">Se connecter</button>
@@ -1005,128 +983,253 @@
                 </form>
             </div>
 
-            <!-- Admin Content (hidden by default) -->
-            <div id="admin-content" class="hidden">
-                <!-- Tabs -->
-                <div class="mb-8">
-                    <ul class="flex border-b">
-                        <li class="mr-1">
-                            <a href="#" class="admin-tab bg-white inline-block py-2 px-4 text-red-700 font-semibold border-l border-t border-r rounded-t" 
-                               data-target="reservations-content">Réservations</a>
-                        </li>
-                        <li class="mr-1">
-                            <a href="#" class="admin-tab bg-gray-200 inline-block py-2 px-4 text-gray-700 font-semibold border-l border-t border-r rounded-t"
-                               data-target="contacts-content">Messages</a>
-                        </li>
-                        <li class="mr-1">
-                            <a href="#" class="admin-tab bg-gray-200 inline-block py-2 px-4 text-gray-700 font-semibold border-l border-t border-r rounded-t"
-                               data-target="statistics-content">Statistiques</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Reservations Content -->
-                <div id="reservations-content" class="admin-content">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="p-4 bg-red-700 text-white flex justify-between items-center">
-                            <h3 class="text-xl font-semibold">Réservations</h3>
-                            <div>
-                                <button id="refresh-reservations" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm">
-                                    <i class="fas fa-sync-alt mr-1"></i>Actualiser
-                                </button>
-                                <button id="export-reservations" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm ml-2">
-                                    <i class="fas fa-download mr-1"></i>Exporter CSV
-                                </button>
+            <!-- Admin Dashboard (hidden by default) -->
+            <div id="admin-dashboard" class="hidden">
+                <!-- Dashboard Overview -->
+                <div id="dashboard-content">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="admin-card">
+                            <div class="flex items-center mb-2">
+                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-calendar-check text-red-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-1">Réservations</h3>
+                                    <div class="relative">
+                                        <span>Gérez les réservations de vos clients.</span>
+                                        <span class="notification-badge">3</span>
+                                    </div>
+                                </div>
                             </div>
+                            <button id="show-reservations" class="text-red-600 font-semibold hover:text-red-800 mt-4">Voir les réservations →</button>
                         </div>
+                        
+                        <div class="admin-card">
+                            <div class="flex items-center mb-2">
+                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-1">Messages</h3>
+                                    <div class="relative">
+                                        <span>Consultez et répondez aux messages des clients.</span>
+                                        <span class="notification-badge">2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="show-messages" class="text-blue-600 font-semibold hover:text-blue-800 mt-4">Voir les messages →</button>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="flex items-center mb-2">
+                                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                                    <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold mb-1">Statistiques</h3>
+                                    <span>Analysez la performance de votre restaurant.</span>
+                                </div>
+                            </div>
+                            <button id="show-stats" class="text-green-600 font-semibold hover:text-green-800 mt-4">Voir les statistiques →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reservations Section -->
+                <div id="reservations-content" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-semibold">Réservations</h3>
+                        <button id="back-to-dashboard" class="px-4 py-2 rounded text-gray-700 hover:bg-gray-200">
+                            <i class="fas fa-arrow-left mr-2"></i>Retour
+                        </button>
+                    </div>
+                    
+                    <div class="admin-card mb-6">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left">
-                                <thead class="bg-gray-100">
+                            <table class="w-full">
+                                <thead>
                                     <tr>
-                                        <th class="px-4 py-2">Date</th>
-                                        <th class="px-4 py-2">Heure</th>
-                                        <th class="px-4 py-2">Nom</th>
-                                        <th class="px-4 py-2">Téléphone</th>
-                                        <th class="px-4 py-2">Email</th>
-                                        <th class="px-4 py-2">Personnes</th>
-                                        <th class="px-4 py-2">Message</th>
-                                        <th class="px-4 py-2">Actions</th>
+                                        <th class="px-4 py-2 text-left">Date</th>
+                                        <th class="px-4 py-2 text-left">Heure</th>
+                                        <th class="px-4 py-2 text-left">Nom</th>
+                                        <th class="px-4 py-2 text-left">Personnes</th>
+                                        <th class="px-4 py-2 text-left">Contact</th>
+                                        <th class="px-4 py-2 text-left">Statut</th>
+                                        <th class="px-4 py-2 text-left">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="reservations-table">
-                                    <!-- Les réservations seront chargées ici -->
+                                <tbody>
+                                    <tr class="font-bold">
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">15/04/2023</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">19:30</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Jean Dupont</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">4</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">jean@exemple.com</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente</span>
+                                        </td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <button class="text-green-600 hover:text-green-800 mr-2"><i class="fas fa-check"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="font-bold">
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">16/04/2023</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">20:00</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Marie Martin</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">2</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">marie@exemple.com</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente</span>
+                                        </td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <button class="text-green-600 hover:text-green-800 mr-2"><i class="fas fa-check"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="font-bold">
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">17/04/2023</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">12:30</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Paul Bernard</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">6</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">paul@exemple.com</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente</span>
+                                        </td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <button class="text-green-600 hover:text-green-800 mr-2"><i class="fas fa-check"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-times"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">14/04/2023</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">19:00</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Sophie Moreau</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">3</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">sophie@exemple.com</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Confirmée</span>
+                                        </td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Contacts Content -->
-                <div id="contacts-content" class="admin-content hidden">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="p-4 bg-red-700 text-white flex justify-between items-center">
-                            <h3 class="text-xl font-semibold">Messages</h3>
-                            <div>
-                                <button id="refresh-contacts" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm">
-                                    <i class="fas fa-sync-alt mr-1"></i>Actualiser
-                                </button>
-                                <button id="export-contacts" class="bg-white text-red-700 px-3 py-1 rounded font-medium text-sm ml-2">
-                                    <i class="fas fa-download mr-1"></i>Exporter CSV
-                                </button>
-                            </div>
-                        </div>
+
+                <!-- Messages Section -->
+                <div id="messages-content" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-semibold">Messages</h3>
+                        <button id="back-from-messages" class="px-4 py-2 rounded text-gray-700 hover:bg-gray-200">
+                            <i class="fas fa-arrow-left mr-2"></i>Retour
+                        </button>
+                    </div>
+                    
+                    <div class="admin-card mb-6">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left">
-                                <thead class="bg-gray-100">
+                            <table class="w-full">
+                                <thead>
                                     <tr>
-                                        <th class="px-4 py-2">Date</th>
-                                        <th class="px-4 py-2">Nom</th>
-                                        <th class="px-4 py-2">Email</th>
-                                        <th class="px-4 py-2">Sujet</th>
-                                        <th class="px-4 py-2">Message</th>
-                                        <th class="px-4 py-2">Actions</th>
+                                        <th class="px-4 py-2 text-left">Date</th>
+                                        <th class="px-4 py-2 text-left">Nom</th>
+                                        <th class="px-4 py-2 text-left">Email</th>
+                                        <th class="px-4 py-2 text-left">Sujet</th>
+                                        <th class="px-4 py-2 text-left">Message</th>
+                                        <th class="px-4 py-2 text-left">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="contacts-table">
-                                    <!-- Les messages seront chargés ici -->
+                                <tbody>
+                                    <tr class="font-bold">
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">12/04/2023</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Sophie Petit</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">sophie@exemple.com</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Question sur les allergènes</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Bonjour, proposez-vous des pizzas sans gluten ?</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-reply"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="font-bold">
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">11/04/2023</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Thomas Durand</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">thomas@exemple.com</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Privatisation</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Je souhaiterais privatiser votre restaurant...</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-reply"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">10/04/2023</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Julie Martin</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">julie@exemple.com</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Remerciements</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Merci pour cette soirée merveilleuse...</td>
+                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
+                                            <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-reply"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Statistics Content -->
-                <div id="statistics-content" class="admin-content hidden">
+
+                <!-- Statistics Section -->
+                <div id="stats-content" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-semibold">Statistiques du restaurant</h3>
+                        <button id="back-from-stats" class="px-4 py-2 rounded text-gray-700 hover:bg-gray-200">
+                            <i class="fas fa-arrow-left mr-2"></i>Retour
+                        </button>
+                    </div>
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="stat-card">
-                            <h3 class="text-xl font-semibold mb-4">Réservations par jour</h3>
+                        <!-- Réservations par semaine -->
+                        <div class="admin-card">
+                            <h4 class="stats-label mb-4">Réservations par semaine</h4>
                             <div class="chart-container">
                                 <canvas id="reservations-chart"></canvas>
                             </div>
                         </div>
-                        <div class="stat-card">
-                            <h3 class="text-xl font-semibold mb-4">Taux de remplissage</h3>
+                        
+                        <!-- Taux d'occupation -->
+                        <div class="admin-card">
+                            <h4 class="stats-label mb-4">Taux d'occupation</h4>
                             <div class="chart-container">
                                 <canvas id="occupancy-chart"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="stat-card">
-                            <h3 class="text-xl font-semibold mb-4">Jours les plus populaires</h3>
-                            <div class="chart-container">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Jours populaires -->
+                        <div class="admin-card">
+                            <h4 class="stats-label mb-4">Jours populaires</h4>
+                            <div class="chart-container" style="height: 250px;">
                                 <canvas id="popular-days-chart"></canvas>
                             </div>
                         </div>
-                        <div class="stat-card">
-                            <h3 class="text-xl font-semibold mb-4">Répartition des réservations</h3>
-                            <div class="chart-container">
-                                <canvas id="reservation-times-chart"></canvas>
+                        
+                        <!-- Répartition horaire -->
+                        <div class="admin-card">
+                            <h4 class="stats-label mb-4">Répartition horaire</h4>
+                            <div class="chart-container" style="height: 250px;">
+                                <canvas id="time-distribution-chart"></canvas>
                             </div>
                         </div>
-                        <div class="stat-card">
-                            <h3 class="text-xl font-semibold mb-4">Taille des groupes</h3>
-                            <div class="chart-container">
+                        
+                        <!-- Taille des groupes -->
+                        <div class="admin-card">
+                            <h4 class="stats-label mb-4">Taille des groupes</h4>
+                            <div class="chart-container" style="height: 250px;">
                                 <canvas id="group-size-chart"></canvas>
                             </div>
                         </div>
@@ -1142,26 +1245,37 @@
         const mobileMenu = document.getElementById('mobile-menu');
         
         mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('active');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('flex');
+            } else {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+            }
         });
         
         // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        document.querySelectorAll('a[href^="#"]:not(#admin-link)').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 
                 // Close mobile menu if open
-                if (mobileMenu.classList.contains('active')) {
-                    mobileMenu.classList.remove('active');
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('flex');
                 }
                 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const targetElement = document.querySelector(this.getAttribute('href'));
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
         
-        // Form submission handling
+        // Form submissions
         const reservationForm = document.getElementById('reservation-form');
         if (reservationForm) {
             reservationForm.addEventListener('submit', function(e) {
@@ -1180,51 +1294,98 @@
             });
         }
         
-        // Menu category filtering
-        const menuCategoryButtons = document.querySelectorAll('.menu-category-btn');
-        const menuSections = document.querySelectorAll('.menu-section');
+        // Menu filtering system
+        const menuFilters = document.querySelectorAll('.menu-filter');
+        const menuCategories = document.querySelectorAll('.menu-category');
         
-        menuCategoryButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Reset all buttons
-                menuCategoryButtons.forEach(btn => {
-                    btn.classList.remove('bg-red-600', 'text-white');
-                    btn.classList.add('bg-white', 'text-red-600', 'border', 'border-red-600');
+        function filterMenu(category) {
+            menuFilters.forEach(button => {
+                button.classList.remove('bg-red-600', 'text-white');
+                button.classList.add('bg-white', 'border', 'border-red-600', 'text-red-600');
+            });
+            
+            const activeButton = document.querySelector(`.menu-filter[data-category="${category}"]`);
+            if (activeButton) {
+                activeButton.classList.remove('bg-white', 'border', 'border-red-600', 'text-red-600');
+                activeButton.classList.add('bg-red-600', 'text-white');
+            }
+            
+            if (category === 'all') {
+                menuCategories.forEach(item => {
+                    item.style.display = 'block';
                 });
-                
-                // Activate current button
-                this.classList.remove('bg-white', 'text-red-600', 'border', 'border-red-600');
-                this.classList.add('bg-red-600', 'text-white');
-                
-                // Filter menu sections
-                const category = this.getAttribute('data-category');
-                
-                if (category === 'all') {
-                    menuSections.forEach(section => {
-                        section.style.display = 'block';
-                    });
-                } else {
-                    menuSections.forEach(section => {
-                        if (section.getAttribute('data-category') === category) {
-                            section.style.display = 'block';
-                        } else {
-                            section.style.display = 'none';
-                        }
-                    });
-                }
+            } else {
+                menuCategories.forEach(item => {
+                    if (item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }
+        
+        menuFilters.forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.dataset.category;
+                filterMenu(category);
             });
         });
         
-        // Current date for the reservation form
-        const dateInput = document.getElementById('date');
-        if (dateInput) {
-            const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const yyyy = today.getFullYear();
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const adminThemeToggle = document.getElementById('admin-theme-toggle');
+        const mobileThemeToggle = document.getElementById('theme-toggle-mobile');
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
             
-            const formattedToday = yyyy + '-' + mm + '-' + dd;
-            dateInput.setAttribute('min', formattedToday);
+            // Update all toggles to match
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            if (themeToggle) themeToggle.checked = isDarkMode;
+            if (adminThemeToggle) adminThemeToggle.checked = isDarkMode;
+            
+            // Update mobile icon
+            if (mobileThemeToggle) {
+                const icon = mobileThemeToggle.querySelector('i');
+                if (isDarkMode) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+            
+            // Store preference
+            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+            
+            // Update charts if they exist
+            updateChartsForTheme();
+        }
+        
+        // Set initial theme from saved preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            if (themeToggle) themeToggle.checked = true;
+            if (adminThemeToggle) adminThemeToggle.checked = true;
+            if (mobileThemeToggle) {
+                const icon = mobileThemeToggle.querySelector('i');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+        
+        if (themeToggle) {
+            themeToggle.addEventListener('change', toggleDarkMode);
+        }
+        
+        if (adminThemeToggle) {
+            adminThemeToggle.addEventListener('change', toggleDarkMode);
+        }
+        
+        if (mobileThemeToggle) {
+            mobileThemeToggle.addEventListener('click', toggleDarkMode);
         }
         
         // Admin Panel
@@ -1232,176 +1393,120 @@
         const adminPanel = document.getElementById('admin-panel');
         const closeAdmin = document.getElementById('close-admin');
         const adminLogin = document.getElementById('admin-login');
-        const adminContent = document.getElementById('admin-content');
+        const adminDashboard = document.getElementById('admin-dashboard');
         const loginForm = document.getElementById('login-form');
         
-        // Admin Panel Show/Hide
         adminLink.addEventListener('click', function(e) {
             e.preventDefault();
-            adminPanel.classList.add('active');
-            
-            // Check if admin is already logged in
-            if (localStorage.getItem('adminLoggedIn') === 'true') {
-                adminLogin.classList.add('hidden');
-                adminContent.classList.remove('hidden');
-                loadReservations();
-                loadContacts();
-                initializeCharts();
-            } else {
-                adminLogin.classList.remove('hidden');
-                adminContent.classList.add('hidden');
-            }
+            adminPanel.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         });
         
         closeAdmin.addEventListener('click', function() {
-            adminPanel.classList.remove('active');
+            adminPanel.style.display = 'none';
+            document.body.style.overflow = 'auto';
         });
         
-        // Admin Login
         loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
             if (username === 'admin' && password === 'mamapizza2023') {
-                localStorage.setItem('adminLoggedIn', 'true');
-                adminLogin.classList.add('hidden');
-                adminContent.classList.remove('hidden');
-                loadReservations();
-                loadContacts();
+                adminLogin.style.display = 'none';
+                adminDashboard.style.display = 'block';
                 initializeCharts();
             } else {
                 alert('Identifiants incorrects');
             }
         });
         
-        // Admin Tab Navigation
-        const adminTabs = document.querySelectorAll('.admin-tab');
-        adminTabs.forEach(tab => {
-            tab.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Update tab styles
-                adminTabs.forEach(t => {
-                    t.classList.remove('bg-white', 'text-red-700');
-                    t.classList.add('bg-gray-200', 'text-gray-700');
-                });
-                this.classList.remove('bg-gray-200', 'text-gray-700');
-                this.classList.add('bg-white', 'text-red-700');
-                
-                // Show corresponding content
-                const target = this.getAttribute('data-target');
-                document.querySelectorAll('.admin-content').forEach(content => {
-                    content.classList.add('hidden');
-                });
-                document.getElementById(target).classList.remove('hidden');
-                
-                // Initialize charts if statistics tab is selected
-                if (target === 'statistics-content') {
-                    initializeCharts();
-                }
+        // Admin Navigation
+        const showReservations = document.getElementById('show-reservations');
+        const showMessages = document.getElementById('show-messages');
+        const showStats = document.getElementById('show-stats');
+        const backToDashboard = document.getElementById('back-to-dashboard');
+        const backFromMessages = document.getElementById('back-from-messages');
+        const backFromStats = document.getElementById('back-from-stats');
+        const dashboardContent = document.getElementById('dashboard-content');
+        const reservationsContent = document.getElementById('reservations-content');
+        const messagesContent = document.getElementById('messages-content');
+        const statsContent = document.getElementById('stats-content');
+        
+        function showAdminSection(section) {
+            [dashboardContent, reservationsContent, messagesContent, statsContent].forEach(content => {
+                content.classList.add('hidden');
             });
+            section.classList.remove('hidden');
+        }
+        
+        showReservations.addEventListener('click', function() {
+            showAdminSection(reservationsContent);
         });
         
-        // Load Reservations Data
-        function loadReservations() {
-            const reservationsTable = document.getElementById('reservations-table');
-            
-            // Sample data for demonstration
-            const reservations = [
-                { id: 1, date: '2025-04-15', time: '19:30', name: 'Jean Dupont', phone: '0612345678', email: 'jean@exemple.com', guests: '4', message: 'Table près de la fenêtre svp', timestamp: '2025-04-10 14:23:45' },
-                { id: 2, date: '2025-04-16', time: '20:00', name: 'Marie Martin', phone: '0723456789', email: 'marie@exemple.com', guests: '2', message: 'Anniversaire', timestamp: '2025-04-11 09:15:30' },
-                { id: 3, date: '2025-04-18', time: '12:30', name: 'Paul Bernard', phone: '0634567890', email: 'paul@exemple.com', guests: '6', message: '', timestamp: '2025-04-12 18:45:12' },
-                { id: 4, date: '2025-04-19', time: '13:00', name: 'Sophie Moreau', phone: '0645678901', email: 'sophie@exemple.com', guests: '3', message: 'Allergies aux fruits de mer', timestamp: '2025-04-13 10:30:22' },
-                { id: 5, date: '2025-04-20', time: '19:30', name: 'Thomas Petit', phone: '0756789012', email: 'thomas@exemple.com', guests: '5', message: '', timestamp: '2025-04-14 15:48:33' },
-                { id: 6, date: '2025-04-21', time: '20:30', name: 'Emilie Durand', phone: '0667890123', email: 'emilie@exemple.com', guests: '2', message: 'Table calme svp', timestamp: '2025-04-15 08:12:45' }
-            ];
-            
-            // Clear the table
-            reservationsTable.innerHTML = '';
-            
-            // Fill with data
-            if (reservations.length === 0) {
-                reservationsTable.innerHTML = '<tr><td colspan="8" class="px-4 py-8 text-center text-gray-500">Aucune réservation trouvée</td></tr>';
-            } else {
-                reservations.forEach(reservation => {
-                    const row = document.createElement('tr');
-                    row.className = 'border-t hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="px-4 py-3">${reservation.date}</td>
-                        <td class="px-4 py-3">${reservation.time}</td>
-                        <td class="px-4 py-3">${reservation.name}</td>
-                        <td class="px-4 py-3">${reservation.phone}</td>
-                        <td class="px-4 py-3">${reservation.email}</td>
-                        <td class="px-4 py-3">${reservation.guests}</td>
-                        <td class="px-4 py-3">${reservation.message}</td>
-                        <td class="px-4 py-3">
-                            <button class="text-blue-600 hover:text-blue-800" onclick="confirmReservation(${reservation.id})">
-                                <i class="fas fa-check-circle"></i>
-                            </button>
-                            <button class="text-red-600 hover:text-red-800 ml-2" onclick="deleteReservation(${reservation.id})">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    `;
-                    reservationsTable.appendChild(row);
-                });
-            }
-        }
+        showMessages.addEventListener('click', function() {
+            showAdminSection(messagesContent);
+        });
         
-        // Load Contacts Data
-        function loadContacts() {
-            const contactsTable = document.getElementById('contacts-table');
-            
-            // Sample data for demonstration
-            const contacts = [
-                { id: 1, name: 'Sophie Petit', email: 'sophie@exemple.com', subject: 'Question sur les allergènes', message: 'Bonjour, proposez-vous des pizzas sans gluten ? Merci.', timestamp: '2025-04-10 15:45:22' },
-                { id: 2, name: 'Thomas Durand', email: 'thomas@exemple.com', subject: 'Privatisation', message: 'Je souhaiterais privatiser votre restaurant pour un événement. Est-ce possible ?', timestamp: '2025-04-11 11:23:05' },
-                { id: 3, name: 'Julie Martin', email: 'julie@exemple.com', subject: 'Carte des vins', message: 'Bonjour, pourriez-vous me faire parvenir votre carte des vins ? Merci d\'avance.', timestamp: '2025-04-12 09:17:40' },
-                { id: 4, name: 'Marc Dubois', email: 'marc@exemple.com', subject: 'Félicitations', message: 'Nous avons passé une excellente soirée hier. Compliments au chef !', timestamp: '2025-04-13 14:22:10' }
-            ];
-            
-            // Clear the table
-            contactsTable.innerHTML = '';
-            
-            // Fill with data
-            if (contacts.length === 0) {
-                contactsTable.innerHTML = '<tr><td colspan="6" class="px-4 py-8 text-center text-gray-500">Aucun message trouvé</td></tr>';
-            } else {
-                contacts.forEach(contact => {
-                    const row = document.createElement('tr');
-                    row.className = 'border-t hover:bg-gray-50';
-                    row.innerHTML = `
-                        <td class="px-4 py-3">${contact.timestamp}</td>
-                        <td class="px-4 py-3">${contact.name}</td>
-                        <td class="px-4 py-3">${contact.email}</td>
-                        <td class="px-4 py-3">${contact.subject}</td>
-                        <td class="px-4 py-3">${contact.message}</td>
-                        <td class="px-4 py-3">
-                            <button class="text-blue-600 hover:text-blue-800" onclick="replyToContact(${contact.id})">
-                                <i class="fas fa-reply"></i>
-                            </button>
-                            <button class="text-red-600 hover:text-red-800 ml-2" onclick="deleteContact(${contact.id})">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    `;
-                    contactsTable.appendChild(row);
-                });
-            }
-        }
+        showStats.addEventListener('click', function() {
+            showAdminSection(statsContent);
+            updateChartsForTheme(); // Make sure charts adapt to current theme
+        });
         
-        // Initialize Charts for Statistics
+        backToDashboard.addEventListener('click', function() {
+            showAdminSection(dashboardContent);
+        });
+        
+        backFromMessages.addEventListener('click', function() {
+            showAdminSection(dashboardContent);
+        });
+        
+        backFromStats.addEventListener('click', function() {
+            showAdminSection(dashboardContent);
+        });
+        
+        // Charts initialization
+        let reservationsChart, occupancyChart, popularDaysChart, timeDistributionChart, groupSizeChart;
+        
         function initializeCharts() {
-            // Reservations by Day Chart
-            const reservationsCtx = document.getElementById('reservations-chart').getContext('2d');
-            const reservationsChart = new Chart(reservationsCtx, {
+            // Only initialize if charts don't exist yet
+            if (!reservationsChart) {
+                createReservationsChart();
+            }
+            
+            if (!occupancyChart) {
+                createOccupancyChart();
+            }
+            
+            if (!popularDaysChart) {
+                createPopularDaysChart();
+            }
+            
+            if (!timeDistributionChart) {
+                createTimeDistributionChart();
+            }
+            
+            if (!groupSizeChart) {
+                createGroupSizeChart();
+            }
+        }
+        
+        function createReservationsChart() {
+            const ctx = document.getElementById('reservations-chart').getContext('2d');
+            
+            // Theme-aware colors
+            const gridColor = document.body.classList.contains('dark-mode') ? 
+                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            const textColor = document.body.classList.contains('dark-mode') ? 
+                '#e0e0e0' : '#333333';
+            
+            reservationsChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['1 Avr', '2 Avr', '3 Avr', '4 Avr', '5 Avr', '6 Avr', '7 Avr', '8 Avr', '9 Avr', '10 Avr', '11 Avr', '12 Avr', '13 Avr', '14 Avr', '15 Avr'],
+                    labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
                     datasets: [{
                         label: 'Nombre de réservations',
-                        data: [5, 8, 6, 9, 12, 15, 10, 7, 6, 8, 10, 12, 9, 11, 14],
+                        data: [12, 19, 15, 18, 25, 32, 28],
                         backgroundColor: 'rgba(211, 47, 47, 0.2)',
                         borderColor: 'rgba(211, 47, 47, 1)',
                         borderWidth: 2,
@@ -1412,37 +1517,46 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        }
-                    },
                     scales: {
                         y: {
                             beginAtZero: true,
+                            grid: {
+                                color: gridColor
+                            },
                             ticks: {
-                                precision: 0
+                                color: textColor
                             }
+                        },
+                        x: {
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
                         }
                     }
                 }
             });
+        }
+        
+        function createOccupancyChart() {
+            const ctx = document.getElementById('occupancy-chart').getContext('2d');
             
-            // Occupancy Rate Chart (Gauge)
-            const occupancyCtx = document.getElementById('occupancy-chart').getContext('2d');
-            const occupancyChart = new Chart(occupancyCtx, {
+            occupancyChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Occupé', 'Disponible'],
                     datasets: [{
                         data: [78, 22],
                         backgroundColor: [
-                            'rgba(211, 47, 47, 0.8)',
-                            'rgba(200, 200, 200, 0.5)'
+                            'rgba(76, 175, 80, 0.8)',
+                            'rgba(200, 200, 200, 0.2)'
                         ],
                         borderWidth: 0
                     }]
@@ -1450,8 +1564,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    circumference: 180,
-                    rotation: -90,
+                    cutout: '75%',
                     plugins: {
                         legend: {
                             display: false
@@ -1459,7 +1572,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.label + ': ' + context.parsed + '%';
+                                    return context.raw + '%';
                                 }
                             }
                         }
@@ -1467,56 +1580,70 @@
                 }
             });
             
-            // Add center text to show percentage
+            // Add center text
             Chart.register({
-                id: 'centerText',
-                afterDraw: function(chart) {
-                    if (chart.canvas.id === 'occupancy-chart') {
-                        const ctx = chart.ctx;
+                id: 'chartAreaPlugin',
+                beforeDraw: function(chart) {
+                    if (chart.config.type === 'doughnut') {
                         const width = chart.width;
                         const height = chart.height;
+                        const ctx = chart.ctx;
+                        const textColor = document.body.classList.contains('dark-mode') ? 
+                            '#e0e0e0' : '#333333';
                         
                         ctx.restore();
-                        ctx.font = '24px Montserrat';
-                        ctx.fillStyle = '#D32F2F';
+                        const fontSize = (height / 114).toFixed(2);
+                        ctx.font = fontSize + 'em sans-serif';
                         ctx.textBaseline = 'middle';
-                        ctx.textAlign = 'center';
-                        ctx.fillText('78%', width / 2, height - 40);
+                        ctx.fillStyle = textColor;
                         
-                        ctx.font = '14px Montserrat';
-                        ctx.fillStyle = '#666';
-                        ctx.fillText('Taux d\'occupation', width / 2, height - 10);
+                        const text = '78%';
+                        const textX = Math.round((width - ctx.measureText(text).width) / 2);
+                        const textY = height / 2;
+                        
+                        ctx.fillText(text, textX, textY);
+                        ctx.font = (fontSize * 0.5) + 'em sans-serif';
+                        const occupationText = 'Occupation';
+                        const occupationX = Math.round((width - ctx.measureText(occupationText).width) / 2);
+                        ctx.fillText(occupationText, occupationX, textY + 25);
                         ctx.save();
                     }
                 }
             });
+        }
+        
+        function createPopularDaysChart() {
+            const ctx = document.getElementById('popular-days-chart').getContext('2d');
             
-            // Popular Days Chart
-            const popularDaysCtx = document.getElementById('popular-days-chart').getContext('2d');
-            const popularDaysChart = new Chart(popularDaysCtx, {
+            // Theme-aware colors
+            const gridColor = document.body.classList.contains('dark-mode') ? 
+                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            const textColor = document.body.classList.contains('dark-mode') ? 
+                '#e0e0e0' : '#333333';
+            
+            popularDaysChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
                     datasets: [{
-                        label: 'Nombre de réservations',
-                        data: [0, 8, 12, 15, 25, 30, 22],
+                        data: [15, 22, 18, 25, 30, 38, 35],
                         backgroundColor: [
-                            'rgba(200, 200, 200, 0.6)', // Lundi (fermé)
-                            'rgba(76, 175, 80, 0.6)',
-                            'rgba(76, 175, 80, 0.6)',
-                            'rgba(76, 175, 80, 0.6)',
-                            'rgba(255, 193, 7, 0.6)',
-                            'rgba(211, 47, 47, 0.6)',
-                            'rgba(211, 47, 47, 0.6)'
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(255, 99, 132, 0.8)'
                         ],
                         borderColor: [
-                            'rgba(200, 200, 200, 1)',
-                            'rgba(76, 175, 80, 1)',
-                            'rgba(76, 175, 80, 1)',
-                            'rgba(76, 175, 80, 1)',
-                            'rgba(255, 193, 7, 1)',
-                            'rgba(211, 47, 47, 1)',
-                            'rgba(211, 47, 47, 1)'
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(255, 99, 132, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -1524,39 +1651,54 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
                     plugins: {
                         legend: {
                             display: false
                         }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0
-                            }
-                        }
                     }
                 }
             });
+        }
+        
+        function createTimeDistributionChart() {
+            const ctx = document.getElementById('time-distribution-chart').getContext('2d');
             
-            // Reservation Times Chart
-            const reservationTimesCtx = document.getElementById('reservation-times-chart').getContext('2d');
-            const reservationTimesChart = new Chart(reservationTimesCtx, {
+            // Theme-aware colors
+            const textColor = document.body.classList.contains('dark-mode') ? 
+                '#e0e0e0' : '#333333';
+            
+            timeDistributionChart = new Chart(ctx, {
                 type: 'pie',
                 data: {
-                    labels: ['Midi (12h-14h)', 'Soir (19h-21h)', 'Soir (21h-23h)'],
+                    labels: ['Midi (32%)', 'Soir (68%)'],
                     datasets: [{
-                        data: [35, 45, 20],
+                        data: [32, 68],
                         backgroundColor: [
-                            'rgba(255, 193, 7, 0.6)',
-                            'rgba(211, 47, 47, 0.6)',
-                            'rgba(76, 175, 80, 0.6)'
+                            'rgba(255, 159, 64, 0.8)',
+                            'rgba(255, 99, 132, 0.8)'
                         ],
                         borderColor: [
-                            'rgba(255, 193, 7, 1)',
-                            'rgba(211, 47, 47, 1)',
-                            'rgba(76, 175, 80, 1)'
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 99, 132, 1)'
                         ],
                         borderWidth: 1
                     }]
@@ -1568,85 +1710,107 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                padding: 20,
+                                color: textColor,
+                                padding: 10,
                                 boxWidth: 12
                             }
                         }
                     }
                 }
             });
+        }
+        
+        function createGroupSizeChart() {
+            const ctx = document.getElementById('group-size-chart').getContext('2d');
             
-            // Group Size Chart
-            const groupSizeCtx = document.getElementById('group-size-chart').getContext('2d');
-            const groupSizeChart = new Chart(groupSizeCtx, {
+            // Theme-aware colors
+            const gridColor = document.body.classList.contains('dark-mode') ? 
+                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            const textColor = document.body.classList.contains('dark-mode') ? 
+                '#e0e0e0' : '#333333';
+            
+            groupSizeChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['1 pers.', '2 pers.', '3-4 pers.', '5-6 pers.', '7+ pers.'],
+                    labels: ['1-2 pers.', '3-4 pers.', '5-6 pers.', '7+ pers.'],
                     datasets: [{
-                        label: 'Nombre de réservations',
-                        data: [5, 35, 40, 15, 5],
-                        backgroundColor: 'rgba(76, 175, 80, 0.6)',
-                        borderColor: 'rgba(76, 175, 80, 1)',
+                        data: [40, 35, 20, 5],
+                        backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1
                     }]
                 },
                 options: {
+                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 50,
+                            grid: {
+                                color: gridColor
+                            },
+                            ticks: {
+                                color: textColor,
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: textColor
+                            }
+                        }
+                    },
                     plugins: {
                         legend: {
                             display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0
-                            }
                         }
                     }
                 }
             });
         }
         
-        // Admin Actions
-        function confirmReservation(id) {
-            alert(`Réservation #${id} confirmée. Un email de confirmation a été envoyé au client.`);
-        }
-        
-        function deleteReservation(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')) {
-                alert(`Réservation #${id} supprimée.`);
-                loadReservations();
+        function updateChartsForTheme() {
+            // Only update if charts exist
+            if (!reservationsChart || !occupancyChart || !popularDaysChart || 
+                !timeDistributionChart || !groupSizeChart) {
+                return;
             }
+            
+            const gridColor = document.body.classList.contains('dark-mode') ? 
+                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+            const textColor = document.body.classList.contains('dark-mode') ? 
+                '#e0e0e0' : '#333333';
+            
+            // Update reservations chart
+            reservationsChart.options.scales.y.grid.color = gridColor;
+            reservationsChart.options.scales.x.grid.color = gridColor;
+            reservationsChart.options.scales.y.ticks.color = textColor;
+            reservationsChart.options.scales.x.ticks.color = textColor;
+            reservationsChart.update();
+            
+            // Update popular days chart
+            popularDaysChart.options.scales.y.grid.color = gridColor;
+            popularDaysChart.options.scales.y.ticks.color = textColor;
+            popularDaysChart.options.scales.x.ticks.color = textColor;
+            popularDaysChart.update();
+            
+            // Update time distribution chart
+            timeDistributionChart.options.plugins.legend.labels.color = textColor;
+            timeDistributionChart.update();
+            
+            // Update group size chart
+            groupSizeChart.options.scales.x.grid.color = gridColor;
+            groupSizeChart.options.scales.x.ticks.color = textColor;
+            groupSizeChart.options.scales.y.ticks.color = textColor;
+            groupSizeChart.update();
         }
-        
-        function replyToContact(id) {
-            const response = prompt('Votre réponse au message :');
-            if (response) {
-                alert(`Réponse envoyée au message #${id}. Un email a été envoyé au client.`);
-            }
-        }
-        
-        function deleteContact(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
-                alert(`Message #${id} supprimé.`);
-                loadContacts();
-            }
-        }
-        
-        // Event listeners for admin action buttons
-        document.getElementById('refresh-reservations').addEventListener('click', loadReservations);
-        document.getElementById('refresh-contacts').addEventListener('click', loadContacts);
-        
-        document.getElementById('export-reservations').addEventListener('click', function() {
-            alert('Export des réservations au format CSV.');
-        });
-        
-        document.getElementById('export-contacts').addEventListener('click', function() {
-            alert('Export des messages au format CSV.');
-        });
     </script>
 </body>
 </html>
