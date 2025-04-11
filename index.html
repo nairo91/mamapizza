@@ -4,52 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mama Pizza - Restaurant Italien à Montlhéry</title>
-    <meta name="description" content="Mama Pizza, restaurant italien authentique à Montlhéry. Découvrez nos pizzas cuites au feu de bois, nos pâtes fraîches et notre ambiance chaleureuse.">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="description" content="Mama Pizza, restaurant italien authentique à Montlhéry. Découvrez nos pizzas cuites au feu de bois, nos pâtes fraîches et notre ambiance chaleureuse. Réservez votre table dès maintenant !">
+    <meta name="keywords" content="restaurant italien, pizza, Montlhéry, cuisine italienne, pizzeria, pâtes, réservation restaurant">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <style>
-        /* Variables pour les thèmes */
+        /* Variables pour le thème */
         :root {
             --primary: #D32F2F;
             --secondary: #4CAF50;
             --accent: #FFC107;
             --background: #FFFBF5;
-            --card-bg: #FFFFFF;
             --text-dark: #333333;
             --text-light: #FFFFFF;
+            --card-bg: #FFFFFF;
             --border-color: #e2e8f0;
             --header-bg: #FFFFFF;
             --footer-bg: #1a202c;
             --footer-text: #FFFFFF;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --admin-bg: #f7f7f7;
-            --admin-card: #ffffff;
-            --admin-text: #333333;
-            --chart-grid: rgba(0, 0, 0, 0.1);
         }
         
         /* Mode sombre */
         body.dark-mode {
+            --primary: #FF6B6B;
+            --secondary: #6ECB63;
+            --accent: #FFD166;
             --background: #1A1A2E;
-            --card-bg: #252A41;
             --text-dark: #E0E0E0;
+            --text-light: #FFFFFF;
+            --card-bg: #252A41;
             --border-color: #364156;
             --header-bg: #252A41;
             --footer-bg: #0F172A;
             --footer-text: #E0E0E0;
-            --admin-bg: #121212;
-            --admin-card: #1e1e1e;
-            --admin-text: #ffffff;
-            --chart-grid: rgba(255, 255, 255, 0.1);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
         
         body {
             font-family: 'Montserrat', sans-serif;
             color: var(--text-dark);
             background-color: var(--background);
-            transition: background-color 0.3s ease;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         h1, h2, h3, h4, h5 {
@@ -60,10 +59,7 @@
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background-attachment: fixed;
         }
         
         .menu-item {
@@ -74,6 +70,7 @@
         
         .menu-item:hover {
             transform: translateY(-5px);
+            box-shadow: var(--shadow);
         }
         
         .gallery-img {
@@ -119,58 +116,225 @@
             background-color: #ce2b37;
         }
         
-        .admin-panel {
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            color: var(--text-dark);
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .testimonial-card {
+            transition: all 0.3s ease;
+            background-color: var(--card-bg);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow);
+        }
+        
+        .form-input {
+            transition: border-color 0.3s ease;
+            background-color: var(--card-bg);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+
+        /* Admin styles */
+        .admin-container {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: var(--admin-bg);
+            background-color: var(--background);
             z-index: 1000;
             overflow-y: auto;
-            display: none;
-            color: var(--admin-text);
+        }
+        
+        .admin-login {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .admin-header {
+            background-color: var(--header-bg);
+            padding: 1rem;
+            box-shadow: var(--shadow);
+        }
+        
+        .admin-content {
+            padding: 2rem;
         }
         
         .admin-card {
-            background-color: var(--admin-card);
-            border-radius: 8px;
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
             box-shadow: var(--shadow);
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease;
         }
         
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-bottom: 20px;
-            background-color: var(--admin-card);
-            border-radius: 8px;
-            padding: 15px;
+        .admin-card:hover {
+            transform: translateY(-5px);
         }
         
-        .stats-label {
-            color: var(--admin-text);
+        .notification-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+        
+        /* Stats styles */
+        .stats-container {
+            display: none;
+            background-color: var(--background);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .stats-card {
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stats-title {
+            color: var(--text-dark);
+            font-size: 1.25rem;
             font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+            margin-bottom: 1rem;
         }
         
-        /* Switch pour le mode sombre */
-        .theme-switch {
+        /* Réservations styles */
+        .reservations-container {
+            display: none;
+            background-color: var(--background);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .reservations-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .reservations-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            color: var(--text-dark);
+        }
+        
+        .reservations-table td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+        
+        .reservations-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Messages styles */
+        .messages-container {
+            display: none;
+            background-color: var(--background);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .messages-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-bg);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .messages-table th {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            color: var(--text-dark);
+        }
+        
+        .messages-table td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-dark);
+        }
+        
+        .messages-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Toggle switch */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 60px;
-            height: 30px;
+            width: 40px;
+            height: 24px;
+            margin-left: 8px;
         }
         
-        .theme-switch input {
+        .toggle-switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
         
-        .slider {
+        .toggle-slider {
             position: absolute;
             cursor: pointer;
             top: 0;
@@ -179,14 +343,14 @@
             bottom: 0;
             background-color: #ccc;
             transition: .4s;
-            border-radius: 30px;
+            border-radius: 24px;
         }
         
-        .slider:before {
+        .toggle-slider:before {
             position: absolute;
             content: "";
-            height: 22px;
-            width: 22px;
+            height: 16px;
+            width: 16px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -194,50 +358,37 @@
             border-radius: 50%;
         }
         
-        input:checked + .slider {
+        input:checked + .toggle-slider {
             background-color: var(--primary);
         }
         
-        input:checked + .slider:before {
-            transform: translateX(30px);
+        input:checked + .toggle-slider:before {
+            transform: translateX(16px);
         }
         
-        /* Notification badge */
-        .notification-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background-color: #D32F2F;
-            color: white;
-            font-size: 0.75rem;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Chart container */
+        .chart-container {
+            position: relative;
+            margin: 0 auto;
+            height: 300px;
         }
         
-        .tab-button {
-            padding: 10px 15px;
-            background-color: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            color: var(--admin-text);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .tab-button.active {
-            border-bottom-color: var(--primary);
-            color: var(--primary);
+        /* Mobile menu */
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: none;
+            }
+            
+            .mobile-menu.active {
+                display: flex;
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="sticky top-0 z-50 bg-white shadow-md" style="background-color: var(--header-bg);">
+    <nav class="sticky top-0 z-50 shadow-md" style="background-color: var(--header-bg);">
         <div class="italian-flag-bar">
             <div class="italian-flag-green"></div>
             <div class="italian-flag-white"></div>
@@ -245,31 +396,41 @@
         </div>
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <h1 class="text-3xl font-bold text-red-700">Mama Pizza</h1>
-                <span class="ml-2 text-green-600 italic">Tradizione Italiana</span>
+                <h1 class="text-3xl font-bold" style="color: var(--primary);">Mama Pizza</h1>
+                <span class="ml-2 italic" style="color: var(--secondary);">Tradizione Italiana</span>
             </div>
             
-            <div class="hidden md:flex items-center space-x-6">
-                <a href="#accueil" class="font-medium hover:text-red-600 transition-colors">Accueil</a>
-                <a href="#menu" class="font-medium hover:text-red-600 transition-colors">Menu</a>
-                <a href="#a-propos" class="font-medium hover:text-red-600 transition-colors">À Propos</a>
-                <a href="#galerie" class="font-medium hover:text-red-600 transition-colors">Galerie</a>
-                <a href="#reservation" class="font-medium hover:text-red-600 transition-colors">Réservation</a>
-                <a href="#contact" class="font-medium hover:text-red-600 transition-colors">Contact</a>
-                <div class="ml-4 flex items-center">
-                    <label class="theme-switch">
-                        <input type="checkbox" id="theme-toggle">
-                        <span class="slider"></span>
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#accueil" class="nav-link font-medium">Accueil</a>
+                <a href="#menu" class="nav-link font-medium">Menu</a>
+                <a href="#a-propos" class="nav-link font-medium">À Propos</a>
+                <a href="#galerie" class="nav-link font-medium">Galerie</a>
+                <a href="#reservation" class="nav-link font-medium">Réservation</a>
+                <a href="#contact" class="nav-link font-medium">Contact</a>
+                
+                <!-- Mode sombre toggle -->
+                <div class="toggle-container ml-4">
+                    <span style="color: var(--text-dark);">Mode sombre</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="theme-toggle-nav">
+                        <span class="toggle-slider"></span>
                     </label>
                 </div>
             </div>
             
             <!-- Mobile Navigation Button -->
             <div class="md:hidden flex items-center">
-                <button id="theme-toggle-mobile" class="p-2 mr-2">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                <!-- Mode sombre toggle pour mobile -->
+                <div class="toggle-container mr-4">
+                    <span style="color: var(--text-dark);">Mode sombre</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="theme-toggle-mobile">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <button id="mobile-menu-button" class="focus:outline-none" style="color: var(--text-dark);">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                     </svg>
@@ -278,24 +439,26 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden flex flex-col w-full py-4 px-8 shadow-lg" style="background-color: var(--card-bg);">
-            <a href="#accueil" class="py-2 font-medium">Accueil</a>
-            <a href="#menu" class="py-2 font-medium">Menu</a>
-            <a href="#a-propos" class="py-2 font-medium">À Propos</a>
-            <a href="#galerie" class="py-2 font-medium">Galerie</a>
-            <a href="#reservation" class="py-2 font-medium">Réservation</a>
-            <a href="#contact" class="py-2 font-medium">Contact</a>
+        <div id="mobile-menu" class="mobile-menu md:hidden flex flex-col w-full py-4 px-8 shadow-lg" style="background-color: var(--card-bg);">
+            <a href="#accueil" class="py-2 font-medium nav-link">Accueil</a>
+            <a href="#menu" class="py-2 font-medium nav-link">Menu</a>
+            <a href="#a-propos" class="py-2 font-medium nav-link">À Propos</a>
+            <a href="#galerie" class="py-2 font-medium nav-link">Galerie</a>
+            <a href="#reservation" class="py-2 font-medium nav-link">Réservation</a>
+            <a href="#contact" class="py-2 font-medium nav-link">Contact</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="accueil" class="hero-section">
-        <div class="container mx-auto px-4 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4">Mama Pizza</h1>
-            <p class="text-xl md:text-2xl text-white mb-6">La véritable tradition italienne à Montlhéry</p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#menu" class="btn-primary px-6 py-3 rounded-full font-semibold text-lg">Découvrir notre menu</a>
-                <a href="#reservation" class="bg-white text-red-700 px-6 py-3 rounded-full font-semibold text-lg transition-all hover:bg-gray-100 hover:transform hover:-translate-y-1">Réserver une table</a>
+    <section id="accueil" class="hero-section min-h-screen flex items-center justify-center text-center">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 floating">Mama Pizza</h1>
+                <p class="text-xl md:text-2xl text-white mb-6">La véritable tradition italienne à Montlhéry</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#menu" class="btn-primary px-6 py-3 rounded-full font-semibold text-lg">Découvrir notre menu</a>
+                    <a href="#reservation" class="bg-white text-red-700 px-6 py-3 rounded-full font-semibold text-lg transition-all hover:bg-gray-100 hover:transform hover:-translate-y-2" style="color: var(--primary);">Réserver une table</a>
+                </div>
             </div>
         </div>
     </section>
@@ -304,8 +467,8 @@
     <section id="a-propos" class="py-16" style="background-color: var(--card-bg);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">Notre Histoire</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto"></div>
+                <h2 class="text-4xl font-bold mb-4" style="color: var(--text-dark);">Notre Histoire</h2>
+                <div class="w-24 h-1 bg-red-600 mx-auto" style="background-color: var(--primary);"></div>
             </div>
             
             <div class="flex flex-col md:flex-row items-center gap-12">
@@ -313,25 +476,26 @@
                     <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Restaurant Mama Pizza" class="rounded-lg shadow-xl w-full h-auto">
                 </div>
                 <div class="md:w-1/2">
-                    <h3 class="text-3xl font-semibold mb-4">Bienvenue chez Mama Pizza</h3>
-                    <p class="mb-6">Depuis son ouverture, Mama Pizza perpétue la tradition culinaire italienne authentique au cœur de Montlhéry. Notre passion pour les saveurs de l'Italie se retrouve dans chacun de nos plats préparés avec des ingrédients frais et de qualité.</p>
-                    <p class="mb-6">Notre restaurant offre un cadre chaleureux idéal pour les repas en famille ou les dîners romantiques. Chaque détail, de la décoration aux recettes transmises de génération en génération, est pensé pour vous offrir une véritable expérience italienne.</p>
-                    <div class="flex items-center gap-4 mt-6">
-                        <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
-                            <i class="fas fa-utensils text-red-600 text-2xl"></i>
+                    <h3 class="text-3xl font-semibold mb-4" style="color: var(--text-dark);">Bienvenue chez Mama Pizza</h3>
+                    <p class="mb-6" style="color: var(--text-dark);">Depuis son ouverture, Mama Pizza perpétue la tradition culinaire italienne authentique au cœur de Montlhéry. Notre passion pour les saveurs de l'Italie se retrouve dans chacun de nos plats préparés avec des ingrédients frais et de qualité.</p>
+                    <p class="mb-6" style="color: var(--text-dark);">Notre restaurant offre un cadre chaleureux idéal pour les repas en famille ou les dîners romantiques. Chaque détail, de la décoration aux recettes transmises de génération en génération, est pensé pour vous offrir une véritable expérience italienne.</p>
+                    <p class="mb-8" style="color: var(--text-dark);">Notre équipe, composée de passionnés de gastronomie italienne, met tout son savoir-faire dans la préparation de pizzas cuites au feu de bois, de pâtes fraîches et de desserts traditionnels qui raviront vos papilles.</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center" style="background-color: rgba(211, 47, 47, 0.1);">
+                            <i class="fas fa-utensils text-2xl" style="color: var(--primary);"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-lg">Cuisine Authentique</h4>
-                            <p>Recettes traditionnelles italiennes</p>
+                            <h4 class="font-bold text-lg" style="color: var(--text-dark);">Cuisine Authentique</h4>
+                            <p style="color: var(--text-dark);">Recettes traditionnelles italiennes</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-4 mt-4">
-                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
-                            <i class="fas fa-leaf text-green-600 text-2xl"></i>
+                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center" style="background-color: rgba(76, 175, 80, 0.1);">
+                            <i class="fas fa-leaf text-2xl" style="color: var(--secondary);"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-lg">Ingrédients Frais</h4>
-                            <p>Produits de qualité supérieure</p>
+                            <h4 class="font-bold text-lg" style="color: var(--text-dark);">Ingrédients Frais</h4>
+                            <p style="color: var(--text-dark);">Produits de qualité supérieure</p>
                         </div>
                     </div>
                 </div>
@@ -343,35 +507,35 @@
     <section id="menu" class="py-16" style="background-color: var(--background);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">Notre Menu</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="max-w-2xl mx-auto">Découvrez nos spécialités italiennes préparées avec passion et savoir-faire</p>
+                <h2 class="text-4xl font-bold mb-4" style="color: var(--text-dark);">Notre Menu</h2>
+                <div class="w-24 h-1 bg-red-600 mx-auto mb-4" style="background-color: var(--primary);"></div>
+                <p class="max-w-2xl mx-auto" style="color: var(--text-dark);">Découvrez nos spécialités italiennes préparées avec passion et savoir-faire</p>
             </div>
             
             <!-- Menu Categories -->
             <div class="flex flex-wrap justify-center gap-4 mb-12">
-                <button class="menu-filter px-6 py-2 rounded-full bg-red-600 text-white font-medium" data-category="all">Toutes</button>
-                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="entrees">Entrées</button>
-                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pizzas">Pizzas</button>
-                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="pates">Pâtes</button>
-                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="desserts">Desserts</button>
-                <button class="menu-filter px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-category="boissons">Boissons</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-red-600 text-white font-medium" data-filter="all">Toutes</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-filter="entrees">Entrées</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-filter="pizzas">Pizzas</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-filter="pates">Pâtes</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-filter="desserts">Desserts</button>
+                <button class="filter-btn px-6 py-2 rounded-full bg-white border border-red-600 text-red-600 font-medium" data-filter="boissons">Boissons</button>
             </div>
 
             <!-- Entrées -->
             <div class="menu-category mb-16" data-category="entrees">
-                <h3 class="text-3xl font-semibold mb-8 text-center">Entrées</h3>
+                <h3 class="text-3xl font-semibold mb-8 text-center" style="color: var(--text-dark);">Entrées</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="menu-item rounded-lg shadow-md overflow-hidden">
                         <img src="https://img.cuisineaz.com/1024x1024/2015/01/07/i96142-bruschetta-a-la-tomate.jpg" alt="Bruschetta" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Bruschetta Classica</h4>
-                                <span class="text-red-600 font-bold">7,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Bruschetta Classica</h4>
+                                <span class="font-bold" style="color: var(--primary);">7,50 €</span>
                             </div>
-                            <p class="mb-4">Pain grillé à l'ail, tomates fraîches, basilic et huile d'olive extra vierge</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-pepper-hot mr-1 text-red-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Pain grillé à l'ail, tomates fraîches, basilic et huile d'olive extra vierge</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-pepper-hot mr-1" style="color: var(--primary);"></i>
                                 <span>Légèrement épicé</span>
                             </div>
                         </div>
@@ -381,12 +545,12 @@
                         <img src="https://assets.epicurious.com/photos/628ba560cf19fbfe9137ffa4/1:1/w_2560%2Cc_limit/Caprese_RECIPE_051922_34205.jpg" alt="Caprese" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Insalata Caprese</h4>
-                                <span class="text-red-600 font-bold">8,90 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Insalata Caprese</h4>
+                                <span class="font-bold" style="color: var(--primary);">8,90 €</span>
                             </div>
-                            <p class="mb-4">Tomates, mozzarella di bufala, basilic frais et réduction balsamique</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-leaf mr-1 text-green-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Tomates, mozzarella di bufala, basilic frais et réduction balsamique</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-leaf mr-1" style="color: var(--secondary);"></i>
                                 <span>Végétarien</span>
                             </div>
                         </div>
@@ -396,12 +560,12 @@
                         <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Carpaccio di Manzo</h4>
-                                <span class="text-red-600 font-bold">11,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Carpaccio di Manzo</h4>
+                                <span class="font-bold" style="color: var(--primary);">11,50 €</span>
                             </div>
-                            <p class="mb-4">Fines tranches de bœuf cru, parmesan, roquette et huile de truffe</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-star mr-1 text-yellow-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Fines tranches de bœuf cru, parmesan, roquette et huile de truffe</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-star mr-1" style="color: var(--accent);"></i>
                                 <span>Spécialité du chef</span>
                             </div>
                         </div>
@@ -411,18 +575,18 @@
             
             <!-- Pizzas -->
             <div class="menu-category mb-16" data-category="pizzas">
-                <h3 class="text-3xl font-semibold mb-8 text-center">Pizzas</h3>
+                <h3 class="text-3xl font-semibold mb-8 text-center" style="color: var(--text-dark);">Pizzas</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="menu-item rounded-lg shadow-md overflow-hidden">
                         <img src="https://www.allrecipes.com/thmb/2rQA_OlnLbhidei70glz6HCCYAs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/1453815-authentic-pizza-margherita-Cynthia-Ross-4x3-1-7410c69552274163a9049342b60c22ff.jpg" alt="Margherita" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Pizza Margherita</h4>
-                                <span class="text-red-600 font-bold">10,90 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Pizza Margherita</h4>
+                                <span class="font-bold" style="color: var(--primary);">10,90 €</span>
                             </div>
-                            <p class="mb-4">Sauce tomate, mozzarella fior di latte, basilic frais et huile d'olive</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-leaf mr-1 text-green-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Sauce tomate, mozzarella fior di latte, basilic frais et huile d'olive</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-leaf mr-1" style="color: var(--secondary);"></i>
                                 <span>Végétarien</span>
                             </div>
                         </div>
@@ -432,12 +596,12 @@
                         <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Regina" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Pizza Regina</h4>
-                                <span class="text-red-600 font-bold">12,90 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Pizza Regina</h4>
+                                <span class="font-bold" style="color: var(--primary);">12,90 €</span>
                             </div>
-                            <p class="mb-4">Sauce tomate, mozzarella, jambon cuit italien, champignons frais et origan</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-heart mr-1 text-red-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Sauce tomate, mozzarella, jambon cuit italien, champignons frais et origan</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-heart mr-1" style="color: var(--primary);"></i>
                                 <span>Très populaire</span>
                             </div>
                         </div>
@@ -447,12 +611,12 @@
                         <img src="https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Diavola" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Pizza Diavola</h4>
-                                <span class="text-red-600 font-bold">13,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Pizza Diavola</h4>
+                                <span class="font-bold" style="color: var(--primary);">13,50 €</span>
                             </div>
-                            <p class="mb-4">Sauce tomate, mozzarella, spianata piccante, poivrons et piment</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-pepper-hot mr-1 text-red-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Sauce tomate, mozzarella, spianata piccante, poivrons et piment</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-pepper-hot mr-1" style="color: var(--primary);"></i>
                                 <span>Épicé</span>
                             </div>
                         </div>
@@ -462,13 +626,43 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Pizza_quattro_formaggi_at_restaurant%2C_Chalk_Farm_Road%2C_London.jpg" alt="Quattro Formaggi" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Quattro Formaggi</h4>
-                                <span class="text-red-600 font-bold">14,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Quattro Formaggi</h4>
+                                <span class="font-bold" style="color: var(--primary);">14,50 €</span>
                             </div>
-                            <p class="mb-4">Sauce tomate, mozzarella, gorgonzola, parmesan, pecorino et origan</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-leaf mr-1 text-green-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Sauce tomate, mozzarella, gorgonzola, parmesan, pecorino et origan</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-leaf mr-1" style="color: var(--secondary);"></i>
                                 <span>Végétarien</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Prosciutto" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Pizza Prosciutto</h4>
+                                <span class="font-bold" style="color: var(--primary);">15,90 €</span>
+                            </div>
+                            <p class="mb-4" style="color: var(--text-dark);">Sauce tomate, mozzarella di bufala, jambon de Parme 18 mois, roquette et parmesan</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-star mr-1" style="color: var(--accent);"></i>
+                                <span>Spécialité du chef</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item rounded-lg shadow-md overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tartufo" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Pizza Tartufo</h4>
+                                <span class="font-bold" style="color: var(--primary);">17,90 €</span>
+                            </div>
+                            <p class="mb-4" style="color: var(--text-dark);">Base crème, mozzarella, champignons, crème de truffe, roquette et copeaux de parmesan</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-gem mr-1" style="color: purple;"></i>
+                                <span>Produit premium</span>
                             </div>
                         </div>
                     </div>
@@ -477,18 +671,18 @@
             
             <!-- Pâtes -->
             <div class="menu-category mb-16" data-category="pates">
-                <h3 class="text-3xl font-semibold mb-8 text-center">Pâtes</h3>
+                <h3 class="text-3xl font-semibold mb-8 text-center" style="color: var(--text-dark);">Pâtes</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="menu-item rounded-lg shadow-md overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carbonara" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Spaghetti Carbonara</h4>
-                                <span class="text-red-600 font-bold">14,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Spaghetti Carbonara</h4>
+                                <span class="font-bold" style="color: var(--primary);">14,50 €</span>
                             </div>
-                            <p class="mb-4">Spaghetti, guanciale, œuf, pecorino romano et poivre noir</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-heart mr-1 text-red-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Spaghetti, guanciale, œuf, pecorino romano et poivre noir</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-heart mr-1" style="color: var(--primary);"></i>
                                 <span>Très populaire</span>
                             </div>
                         </div>
@@ -498,12 +692,12 @@
                         <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Bolognese" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Tagliatelle Bolognese</h4>
-                                <span class="text-red-600 font-bold">13,90 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Tagliatelle Bolognese</h4>
+                                <span class="font-bold" style="color: var(--primary);">13,90 €</span>
                             </div>
-                            <p class="mb-4">Tagliatelles fraîches, ragù à la bolognaise mijoté pendant 6 heures et parmesan</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-utensils mr-1 text-gray-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Tagliatelles fraîches, ragù à la bolognaise mijoté pendant 6 heures et parmesan</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-utensils mr-1" style="color: gray;"></i>
                                 <span>Classique italien</span>
                             </div>
                         </div>
@@ -513,12 +707,12 @@
                         <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pesto" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Linguine al Pesto</h4>
-                                <span class="text-red-600 font-bold">12,90 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Linguine al Pesto</h4>
+                                <span class="font-bold" style="color: var(--primary);">12,90 €</span>
                             </div>
-                            <p class="mb-4">Linguine, pesto de basilic maison, pignons de pin et parmesan</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-leaf mr-1 text-green-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Linguine, pesto de basilic maison, pignons de pin et parmesan</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-leaf mr-1" style="color: var(--secondary);"></i>
                                 <span>Végétarien</span>
                             </div>
                         </div>
@@ -528,18 +722,18 @@
             
             <!-- Desserts -->
             <div class="menu-category mb-16" data-category="desserts">
-                <h3 class="text-3xl font-semibold mb-8 text-center">Desserts</h3>
+                <h3 class="text-3xl font-semibold mb-8 text-center" style="color: var(--text-dark);">Desserts</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="menu-item rounded-lg shadow-md overflow-hidden">
                         <img src="https://www.recipesfromitaly.com/wp-content/uploads/2019/10/tiramisu-authentic-italian-recipe-1x1-1200x1200-1.jpg" alt="Tiramisu" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Tiramisu</h4>
-                                <span class="text-red-600 font-bold">6,90 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Tiramisu</h4>
+                                <span class="font-bold" style="color: var(--primary);">6,90 €</span>
                             </div>
-                            <p class="mb-4">Biscuits, mascarpone, café, cacao et amaretto</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-star mr-1 text-yellow-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Biscuits, mascarpone, café, cacao et amaretto</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-star mr-1" style="color: var(--accent);"></i>
                                 <span>Fait maison</span>
                             </div>
                         </div>
@@ -549,12 +743,12 @@
                         <img src="https://www.cookingclassy.com/wp-content/uploads/2021/05/panna-cotta-01-500x500.jpg" alt="Panna Cotta" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Panna Cotta</h4>
-                                <span class="text-red-600 font-bold">6,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Panna Cotta</h4>
+                                <span class="font-bold" style="color: var(--primary);">6,50 €</span>
                             </div>
-                            <p class="mb-4">Crème, vanille, coulis de fruits rouges ou caramel au choix</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-heart mr-1 text-red-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Crème, vanille, coulis de fruits rouges ou caramel au choix</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-heart mr-1" style="color: var(--primary);"></i>
                                 <span>Très populaire</span>
                             </div>
                         </div>
@@ -564,12 +758,12 @@
                         <img src="https://www.homecookingadventure.com/wp-content/uploads/2022/01/cannoli_siciliani_main.jpg" alt="Cannoli" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Cannoli Siciliani</h4>
-                                <span class="text-red-600 font-bold">7,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Cannoli Siciliani</h4>
+                                <span class="font-bold" style="color: var(--primary);">7,50 €</span>
                             </div>
-                            <p class="mb-4">Tubes croustillants, crème de ricotta sucrée et pistaches ou pépites de chocolat</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-utensils mr-1 text-gray-500"></i>
+                            <p class="mb-4" style="color: var(--text-dark);">Tubes croustillants, crème de ricotta sucrée et pistaches ou pépites de chocolat</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-utensils mr-1" style="color: gray;"></i>
                                 <span>Spécialité sicilienne</span>
                             </div>
                         </div>
@@ -578,50 +772,50 @@
             </div>
             
             <!-- Boissons -->
-            <div class="menu-category mb-16" data-category="boissons">
-                <h3 class="text-3xl font-semibold mb-8 text-center">Boissons</h3>
+            <div class="menu-category" data-category="boissons">
+                <h3 class="text-3xl font-semibold mb-8 text-center" style="color: var(--text-dark);">Boissons</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="menu-item rounded-lg shadow-md overflow-hidden">
-                        <img src="https://www.vinatis.com/99565-detail_default/pack-trio-chianti-barolo-pouilles.png" alt="Vins italiens" class="w-full h-48 object-cover">
+                        <img src="https://www.vinatis.com/99565-detail_default/pack-trio-chianti-barolo-pouilles.png" alt="Vins Italiens" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Vins Italiens</h4>
-                                <span class="text-red-600 font-bold">à partir de 4,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Vins Italiens</h4>
+                                <span class="font-bold" style="color: var(--primary);">À partir de 19,90 €</span>
                             </div>
-                            <p class="mb-4">Sélection de vins italiens - Chianti, Barolo, Prosecco</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-wine-glass-alt mr-1 text-purple-500"></i>
-                                <span>Sélection régionale</span>
+                            <p class="mb-4" style="color: var(--text-dark);">Sélection de vins italiens: Chianti, Barolo, Montepulciano, Prosecco (demandez notre carte des vins)</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-wine-glass-alt mr-1" style="color: var(--primary);"></i>
+                                <span>Sélection premium</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="menu-item rounded-lg shadow-md overflow-hidden">
-                        <img src="https://cookieandkate.com/images/2019/05/classic-aperol-spritz-recipe-4.jpg" alt="Cocktail italien" class="w-full h-48 object-cover">
+                        <img src="https://cookieandkate.com/images/2019/05/classic-aperol-spritz-recipe-4.jpg" alt="Cocktails Italiens" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Aperol Spritz</h4>
-                                <span class="text-red-600 font-bold">7,90 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Cocktails Italiens</h4>
+                                <span class="font-bold" style="color: var(--primary);">8,50 €</span>
                             </div>
-                            <p class="mb-4">Cocktail traditionnel italien - Aperol, Prosecco, eau gazeuse</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-cocktail mr-1 text-orange-500"></i>
-                                <span>Spécialité de la maison</span>
+                            <p class="mb-4" style="color: var(--text-dark);">Spritz, Negroni, Americano, Bellini et autres cocktails italiens traditionnels</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-cocktail mr-1" style="color: var(--accent);"></i>
+                                <span>Spécialités maison</span>
                             </div>
                         </div>
                     </div>
                     
                     <div class="menu-item rounded-lg shadow-md overflow-hidden">
-                        <img src="https://produits.bienmanger.com/39994-0w470h470_San_Pellegrino_Sparkling_Mineral_Water_From_Italy.jpg" alt="Eau minérale" class="w-full h-48 object-cover">
+                        <img src="https://produits.bienmanger.com/39994-0w470h470_San_Pellegrino_Sparkling_Mineral_Water_From_Italy.jpg" alt="Eaux Minérales" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-xl font-semibold">Eaux Minérales</h4>
-                                <span class="text-red-600 font-bold">3,50 €</span>
+                                <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Eaux Minérales</h4>
+                                <span class="font-bold" style="color: var(--primary);">3,90 €</span>
                             </div>
-                            <p class="mb-4">San Pellegrino, Acqua Panna</p>
-                            <div class="flex items-center text-sm">
-                                <i class="fas fa-tint mr-1 text-blue-500"></i>
-                                <span>Importé d'Italie</span>
+                            <p class="mb-4" style="color: var(--text-dark);">San Pellegrino, Acqua Panna (plate) et autres eaux minérales italiennes</p>
+                            <div class="flex items-center text-sm" style="color: var(--text-dark);">
+                                <i class="fas fa-tint mr-1" style="color: var(--secondary);"></i>
+                                <span>Directement d'Italie</span>
                             </div>
                         </div>
                     </div>
@@ -634,74 +828,156 @@
     <section id="galerie" class="py-16" style="background-color: var(--card-bg);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">Notre Galerie</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="max-w-2xl mx-auto">Découvrez l'ambiance chaleureuse de notre restaurant et nos délicieuses créations culinaires</p>
+                <h2 class="text-4xl font-bold mb-4" style="color: var(--text-dark);">Notre Galerie</h2>
+                <div class="w-24 h-1 bg-red-600 mx-auto mb-4" style="background-color: var(--primary);"></div>
+                <p class="max-w-2xl mx-auto" style="color: var(--text-dark);">Découvrez l'ambiance chaleureuse de notre restaurant et nos délicieuses créations culinaires</p>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1579684947550-22e945225d9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1579684947550-22e945225d9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant" class="w-full h-64 object-cover" loading="lazy">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant intérieur" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Restaurant intérieur" class="w-full h-64 object-cover" loading="lazy">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover" loading="lazy">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1607330289024-1535c6b4e1c1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Carpaccio" class="w-full h-64 object-cover" loading="lazy">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pâtes" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pâtes" class="w-full h-64 object-cover" loading="lazy">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Tiramisu" class="w-full h-64 object-cover">
+                    <img src="https://www.recipesfromitaly.com/wp-content/uploads/2019/10/tiramisu-authentic-italian-recipe-1x1-1200x1200-1.jpg" alt="Tiramisu" class="w-full h-64 object-cover" loading="lazy">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Pizza_quattro_formaggi_at_restaurant%2C_Chalk_Farm_Road%2C_London.jpg" alt="Pizza quatre fromages" class="w-full h-64 object-cover">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Pizza_quattro_formaggi_at_restaurant%2C_Chalk_Farm_Road%2C_London.jpg" alt="Pizza quatre fromages" class="w-full h-64 object-cover" loading="lazy">
                 </div>
                 <div class="gallery-img overflow-hidden rounded-lg shadow-md">
-                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza" class="w-full h-64 object-cover" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16" style="background-color: var(--background);">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4" style="color: var(--text-dark);">Avis de nos clients</h2>
+                <div class="w-24 h-1 bg-red-600 mx-auto mb-4" style="background-color: var(--primary);"></div>
+                <p class="max-w-2xl mx-auto" style="color: var(--text-dark);">Ce que nos clients pensent de leur expérience chez Mama Pizza</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="testimonial-card p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex" style="color: var(--accent);">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="ml-2" style="color: var(--text-dark);">5.0</span>
+                    </div>
+                    <p class="mb-6" style="color: var(--text-dark);">"Les meilleures pizzas de la région ! La pâte est fine et croustillante, les ingrédients sont frais et de qualité. L'ambiance est chaleureuse et le service impeccable. Je recommande vivement !"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                            <span class="font-bold" style="color: var(--text-dark);">SL</span>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold" style="color: var(--text-dark);">Sophie L.</h4>
+                            <p style="color: var(--text-dark);">Client fidèle</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex" style="color: var(--accent);">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="ml-2" style="color: var(--text-dark);">5.0</span>
+                    </div>
+                    <p class="mb-6" style="color: var(--text-dark);">"Soirée romantique parfaite ! Les pâtes à la truffe sont un délice et le tiramisu est l'un des meilleurs que j'ai goûtés. L'ambiance était idéale pour notre anniversaire de mariage. Nous reviendrons !"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                            <span class="font-bold" style="color: var(--text-dark);">TD</span>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold" style="color: var(--text-dark);">Thomas D.</h4>
+                            <p style="color: var(--text-dark);">Client régulier</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card p-8 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <div class="flex" style="color: var(--accent);">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="ml-2" style="color: var(--text-dark);">4.5</span>
+                    </div>
+                    <p class="mb-6" style="color: var(--text-dark);">"Repas en famille très agréable ! Les enfants ont adoré leurs pizzas et le personnel a été très attentionné. Le rapport qualité-prix est excellent et l'ambiance typiquement italienne est un vrai plus."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                            <span class="font-bold" style="color: var(--text-dark);">CM</span>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-semibold" style="color: var(--text-dark);">Camille M.</h4>
+                            <p style="color: var(--text-dark);">Client satisfait</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Reservation Section -->
-    <section id="reservation" class="py-16" style="background-color: var(--background);">
+    <section id="reservation" class="py-16" style="background-color: var(--card-bg);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">Réservez votre table</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="max-w-2xl mx-auto">Réservez facilement votre table pour profiter d'un moment italien authentique</p>
+                <h2 class="text-4xl font-bold mb-4" style="color: var(--text-dark);">Réservez votre table</h2>
+                <div class="w-24 h-1 bg-red-600 mx-auto mb-4" style="background-color: var(--primary);"></div>
+                <p class="max-w-2xl mx-auto" style="color: var(--text-dark);">Réservez facilement votre table pour profiter d'un moment italien authentique</p>
             </div>
             
             <div class="flex flex-col lg:flex-row items-center gap-12">
                 <div class="lg:w-1/2">
                     <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Table réservation" class="rounded-lg shadow-xl w-full h-auto">
                 </div>
-                <div class="lg:w-1/2 p-8 rounded-lg shadow-md" style="background-color: var(--card-bg);">
+                <div class="lg:w-1/2 p-8 rounded-lg shadow-md" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
                     <form id="reservation-form" class="space-y-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="name" class="block font-medium mb-2">Nom</label>
-                                <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                <label for="name" class="block font-medium mb-2" style="color: var(--text-dark);">Nom</label>
+                                <input type="text" id="name" name="name" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                             </div>
                             <div>
-                                <label for="email" class="block font-medium mb-2">Email</label>
-                                <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                <label for="email" class="block font-medium mb-2" style="color: var(--text-dark);">Email</label>
+                                <input type="email" id="email" name="email" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                             </div>
                         </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="phone" class="block font-medium mb-2">Téléphone</label>
-                                <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                <label for="phone" class="block font-medium mb-2" style="color: var(--text-dark);">Téléphone</label>
+                                <input type="tel" id="phone" name="phone" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                             </div>
                             <div>
-                                <label for="guests" class="block font-medium mb-2">Nombre de personnes</label>
-                                <select id="guests" name="guests" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                <label for="guests" class="block font-medium mb-2" style="color: var(--text-dark);">Nombre de personnes</label>
+                                <select id="guests" name="guests" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                                     <option value="">Sélectionnez</option>
                                     <option value="1">1 personne</option>
                                     <option value="2">2 personnes</option>
@@ -716,12 +992,12 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="date" class="block font-medium mb-2">Date</label>
-                                <input type="date" id="date" name="date" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                <label for="date" class="block font-medium mb-2" style="color: var(--text-dark);">Date</label>
+                                <input type="date" id="date" name="date" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                             </div>
                             <div>
-                                <label for="time" class="block font-medium mb-2">Heure</label>
-                                <select id="time" name="time" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                <label for="time" class="block font-medium mb-2" style="color: var(--text-dark);">Heure</label>
+                                <select id="time" name="time" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                                     <option value="">Sélectionnez</option>
                                     <option value="12:00">12:00</option>
                                     <option value="12:30">12:30</option>
@@ -738,8 +1014,8 @@
                         </div>
                         
                         <div>
-                            <label for="message" class="block font-medium mb-2">Demande spéciale (optionnel)</label>
-                            <textarea id="message" name="message" rows="4" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);"></textarea>
+                            <label for="message" class="block font-medium mb-2" style="color: var(--text-dark);">Demande spéciale (optionnel)</label>
+                            <textarea id="message" name="message" rows="4" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);"></textarea>
                         </div>
                         
                         <div class="text-center">
@@ -752,61 +1028,61 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-16" style="background-color: var(--card-bg);">
+    <section id="contact" class="py-16" style="background-color: var(--background);">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">Contactez-nous</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto mb-4"></div>
-                <p class="max-w-2xl mx-auto">N'hésitez pas à nous contacter pour toute information</p>
+                <h2 class="text-4xl font-bold mb-4" style="color: var(--text-dark);">Contactez-nous</h2>
+                <div class="w-24 h-1 bg-red-600 mx-auto mb-4" style="background-color: var(--primary);"></div>
+                <p class="max-w-2xl mx-auto" style="color: var(--text-dark);">N'hésitez pas à nous contacter pour toute information</p>
             </div>
             
             <div class="flex flex-col lg:flex-row gap-12">
                 <div class="lg:w-1/2">
-                    <div class="p-8 rounded-lg shadow-md h-full" style="background-color: var(--card-bg);">
-                        <h3 class="text-2xl font-semibold mb-6">Nos coordonnées</h3>
+                    <div class="p-8 rounded-lg shadow-md h-full" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                        <h3 class="text-2xl font-semibold mb-6" style="color: var(--text-dark);">Nos coordonnées</h3>
                         
                         <div class="flex items-start mb-6">
-                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-map-marker-alt text-red-600 text-xl"></i>
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4" style="background-color: rgba(211, 47, 47, 0.1);">
+                                <i class="fas fa-map-marker-alt text-xl" style="color: var(--primary);"></i>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-lg mb-1">Adresse</h4>
-                                <p>25 Rue de la Liberté, 91310 Montlhéry, France</p>
+                                <h4 class="font-semibold text-lg mb-1" style="color: var(--text-dark);">Adresse</h4>
+                                <p style="color: var(--text-dark);">25 Rue de la Liberté, 91310 Montlhéry, France</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start mb-6">
-                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-phone-alt text-red-600 text-xl"></i>
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4" style="background-color: rgba(211, 47, 47, 0.1);">
+                                <i class="fas fa-phone-alt text-xl" style="color: var(--primary);"></i>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-lg mb-1">Téléphone</h4>
-                                <p>+33 1 23 45 67 89</p>
+                                <h4 class="font-semibold text-lg mb-1" style="color: var(--text-dark);">Téléphone</h4>
+                                <p style="color: var(--text-dark);">+33 1 23 45 67 89</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start mb-6">
-                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-envelope text-red-600 text-xl"></i>
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4" style="background-color: rgba(211, 47, 47, 0.1);">
+                                <i class="fas fa-envelope text-xl" style="color: var(--primary);"></i>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-lg mb-1">Email</h4>
-                                <p>contact@mamapizza.fr</p>
+                                <h4 class="font-semibold text-lg mb-1" style="color: var(--text-dark);">Email</h4>
+                                <p style="color: var(--text-dark);">contact@mamapizza.fr</p>
                             </div>
                         </div>
                         
                         <div class="flex items-start mb-8">
-                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
-                                <i class="fas fa-clock text-red-600 text-xl"></i>
+                            <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4" style="background-color: rgba(211, 47, 47, 0.1);">
+                                <i class="fas fa-clock text-xl" style="color: var(--primary);"></i>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-lg mb-1">Horaires d'ouverture</h4>
-                                <p>Mardi - Dimanche : 12h00 - 14h30 | 19h00 - 22h30</p>
-                                <p>Fermé le lundi</p>
+                                <h4 class="font-semibold text-lg mb-1" style="color: var(--text-dark);">Horaires d'ouverture</h4>
+                                <p style="color: var(--text-dark);">Mardi - Dimanche : 12h00 - 14h30 | 19h00 - 22h30</p>
+                                <p style="color: var(--text-dark);">Fermé le lundi</p>
                             </div>
                         </div>
                         
-                        <h3 class="text-2xl font-semibold mb-4">Suivez-nous</h3>
+                        <h3 class="text-2xl font-semibold mb-4" style="color: var(--text-dark);">Suivez-nous</h3>
                         <div class="flex space-x-4">
                             <a href="#" class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center transition-transform hover:transform hover:scale-110">
                                 <i class="fab fa-facebook-f text-xl"></i>
@@ -822,28 +1098,28 @@
                 </div>
                 
                 <div class="lg:w-1/2">
-                    <div class="p-8 rounded-lg shadow-md" style="background-color: var(--card-bg);">
-                        <h3 class="text-2xl font-semibold mb-6">Envoyez-nous un message</h3>
+                    <div class="p-8 rounded-lg shadow-md" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                        <h3 class="text-2xl font-semibold mb-6" style="color: var(--text-dark);">Envoyez-nous un message</h3>
                         <form id="contact-form" class="space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="contact-name" class="block font-medium mb-2">Nom</label>
-                                    <input type="text" id="contact-name" name="contact-name" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                    <label for="contact-name" class="block font-medium mb-2" style="color: var(--text-dark);">Nom</label>
+                                    <input type="text" id="contact-name" name="contact-name" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                                 </div>
                                 <div>
-                                    <label for="contact-email" class="block font-medium mb-2">Email</label>
-                                    <input type="email" id="contact-email" name="contact-email" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                    <label for="contact-email" class="block font-medium mb-2" style="color: var(--text-dark);">Email</label>
+                                    <input type="email" id="contact-email" name="contact-email" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                                 </div>
                             </div>
                             
                             <div>
-                                <label for="contact-subject" class="block font-medium mb-2">Sujet</label>
-                                <input type="text" id="contact-subject" name="contact-subject" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                                <label for="contact-subject" class="block font-medium mb-2" style="color: var(--text-dark);">Sujet</label>
+                                <input type="text" id="contact-subject" name="contact-subject" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required>
                             </div>
                             
                             <div>
-                                <label for="contact-message" class="block font-medium mb-2">Message</label>
-                                <textarea id="contact-message" name="contact-message" rows="5" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required></textarea>
+                                <label for="contact-message" class="block font-medium mb-2" style="color: var(--text-dark);">Message</label>
+                                <textarea id="contact-message" name="contact-message" rows="5" class="form-input w-full px-4 py-2 rounded-md focus:outline-none focus:ring-2" style="border-color: var(--border-color);" required></textarea>
                             </div>
                             
                             <div class="text-center">
@@ -855,7 +1131,7 @@
             </div>
             
             <div class="mt-12">
-                <div class="rounded-lg shadow-md overflow-hidden">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden" style="background-color: var(--card-bg);">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21036.4063414895!2d2.2652242!3d48.638055699999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e5d73c4a6a7c83%3A0x402f33305f35aa0!2s91310%20Montlh%C3%A9ry!5e0!3m2!1sfr!2sfr!4v1675260211096!5m2!1sfr!2sfr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
@@ -863,11 +1139,11 @@
     </section>
 
     <!-- Footer -->
-    <footer class="text-white py-12" style="background-color: var(--footer-bg);">
+    <footer class="bg-gray-900 text-white py-12" style="background-color: var(--footer-bg); color: var(--footer-text);">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between">
                 <div class="mb-8 md:mb-0">
-                    <h3 class="text-3xl font-bold text-red-500 mb-4">Mama Pizza</h3>
+                    <h3 class="text-3xl font-bold text-red-500 mb-4" style="color: var(--primary);">Mama Pizza</h3>
                     <p class="max-w-xs" style="color: var(--footer-text);">Cuisine italienne authentique et traditionnelle à Montlhéry. Un voyage gustatif en Italie sans quitter la France.</p>
                     <div class="mt-6 flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-white transition-colors">
@@ -929,6 +1205,13 @@
                             <span>12h - 15h | 19h - 23h</span>
                         </li>
                     </ul>
+                    <div class="mt-6 flex items-center">
+                        <span>Mode sombre</span>
+                        <label class="toggle-switch ml-2">
+                            <input type="checkbox" id="theme-toggle-footer">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
             
@@ -948,290 +1231,274 @@
         </div>
     </footer>
 
-    <!-- Admin Panel -->
-    <div id="admin-panel" class="admin-panel">
-        <div class="container mx-auto px-4 py-8">
+    <!-- Admin Container -->
+    <div class="admin-container" id="admin-container">
+        <!-- Admin Login -->
+        <div class="admin-login" id="admin-login">
+            <h2 class="text-2xl font-bold mb-6 text-center" style="color: var(--text-dark);">Connexion administration</h2>
+            <form id="admin-login-form">
+                <div class="mb-4">
+                    <label for="admin-username" class="block font-medium mb-2" style="color: var(--text-dark);">Nom d'utilisateur</label>
+                    <input type="text" id="admin-username" class="form-input w-full px-4 py-2 rounded-md" style="border: 1px solid var(--border-color);">
+                </div>
+                <div class="mb-6">
+                    <label for="admin-password" class="block font-medium mb-2" style="color: var(--text-dark);">Mot de passe</label>
+                    <input type="password" id="admin-password" class="form-input w-full px-4 py-2 rounded-md" style="border: 1px solid var(--border-color);">
+                </div>
+                <button type="submit" class="btn-primary w-full py-2 rounded-md">Se connecter</button>
+                <button type="button" id="admin-cancel" class="w-full py-2 mt-2 rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border: 1px solid var(--border-color);">Annuler</button>
+            </form>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="admin-dashboard" style="display: none;">
             <!-- Admin Header -->
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold">Mama Pizza - Administration</h2>
+            <div class="admin-header flex justify-between items-center">
+                <h2 class="text-2xl font-bold" style="color: var(--text-dark);">Mama Pizza - Administration</h2>
                 <div class="flex items-center">
-                    <label class="theme-switch mr-4">
-                        <input type="checkbox" id="admin-theme-toggle">
-                        <span class="slider"></span>
-                    </label>
-                    <button id="close-admin" class="p-2 rounded hover:bg-gray-200">
-                        <i class="fas fa-times text-2xl"></i>
+                    <div class="toggle-container mr-4">
+                        <span style="color: var(--text-dark);">Mode sombre</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="theme-toggle-admin">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <button id="admin-logout" class="btn-primary px-4 py-2 rounded-md">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
                     </button>
                 </div>
             </div>
 
-            <!-- Login Form -->
-            <div id="admin-login" class="max-w-md mx-auto p-8 rounded-lg shadow-md" style="background-color: var(--admin-card);">
-                <h3 class="text-2xl font-bold mb-6 text-center">Connexion Administrateur</h3>
-                <form id="login-form" class="space-y-6">
-                    <div>
-                        <label for="username" class="block font-medium mb-2">Nom d'utilisateur</label>
-                        <input type="text" id="username" name="username" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+            <!-- Admin Home -->
+            <div id="admin-home" class="admin-content">
+                <h3 class="text-2xl font-bold mb-6" style="color: var(--text-dark);">Tableau de bord</h3>
+                <p class="mb-8" style="color: var(--text-dark);">Bienvenue dans l'interface d'administration de Mama Pizza. Sélectionnez une option ci-dessous pour gérer votre restaurant.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="admin-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Réservations</h4>
+                            <div class="notification-badge">3</div>
+                        </div>
+                        <p class="mb-4" style="color: var(--text-dark);">Gérez les réservations de vos clients.</p>
+                        <button id="view-reservations" class="btn-primary px-4 py-2 rounded-md w-full">Voir les réservations →</button>
                     </div>
-                    <div>
-                        <label for="password" class="block font-medium mb-2">Mot de passe</label>
-                        <input type="password" id="password" name="password" class="w-full px-4 py-2 border rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border-color: var(--border-color);" required>
+                    
+                    <div class="admin-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Messages</h4>
+                            <div class="notification-badge">2</div>
+                        </div>
+                        <p class="mb-4" style="color: var(--text-dark);">Consultez et répondez aux messages des clients.</p>
+                        <button id="view-messages" class="btn-primary px-4 py-2 rounded-md w-full">Voir les messages →</button>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn-primary px-6 py-2 rounded-md font-semibold">Se connecter</button>
+                    
+                    <div class="admin-card">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="text-xl font-semibold" style="color: var(--text-dark);">Statistiques</h4>
+                        </div>
+                        <p class="mb-4" style="color: var(--text-dark);">Analysez la performance de votre restaurant.</p>
+                        <button id="view-stats" class="btn-primary px-4 py-2 rounded-md w-full">Voir les statistiques →</button>
                     </div>
-                </form>
+                </div>
             </div>
 
-            <!-- Admin Dashboard (hidden by default) -->
-            <div id="admin-dashboard" class="hidden">
-                <!-- Dashboard Overview -->
-                <div id="dashboard-content">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="admin-card">
-                            <div class="flex items-center mb-2">
-                                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mr-4">
-                                    <i class="fas fa-calendar-check text-red-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-1">Réservations</h3>
-                                    <div class="relative">
-                                        <span>Gérez les réservations de vos clients.</span>
-                                        <span class="notification-badge">3</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button id="show-reservations" class="text-red-600 font-semibold hover:text-red-800 mt-4">Voir les réservations →</button>
+            <!-- Reservations Section -->
+            <div id="reservations-section" class="reservations-container">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold" style="color: var(--text-dark);">Gestion des réservations</h3>
+                    <button id="back-from-reservations" class="px-4 py-2 rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        <i class="fas fa-arrow-left mr-2"></i>Retour
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                    <table class="reservations-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Heure</th>
+                                <th>Nom</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>Personnes</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>15/04/2025</td>
+                                <td>19:30</td>
+                                <td>Jean Dupont</td>
+                                <td>06 12 34 56 78</td>
+                                <td>jean@exemple.com</td>
+                                <td>4</td>
+                                <td><span class="px-2 py-1 text-white text-xs rounded-full" style="background-color: var(--primary);">Non confirmé</span></td>
+                                <td>
+                                    <button class="text-blue-600 hover:text-blue-800" title="Confirmer">
+                                        <i class="fas fa-check-circle"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-800 ml-2" title="Annuler">
+                                        <i class="fas fa-times-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>16/04/2025</td>
+                                <td>20:00</td>
+                                <td>Marie Martin</td>
+                                <td>07 23 45 67 89</td>
+                                <td>marie@exemple.com</td>
+                                <td>2</td>
+                                <td><span class="px-2 py-1 text-white text-xs rounded-full" style="background-color: var(--secondary);">Confirmé</span></td>
+                                <td>
+                                    <button class="text-red-600 hover:text-red-800" title="Annuler">
+                                        <i class="fas fa-times-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>18/04/2025</td>
+                                <td>12:30</td>
+                                <td>Paul Bernard</td>
+                                <td>06 34 56 78 90</td>
+                                <td>paul@exemple.com</td>
+                                <td>6</td>
+                                <td><span class="px-2 py-1 text-white text-xs rounded-full" style="background-color: var(--primary);">Non confirmé</span></td>
+                                <td>
+                                    <button class="text-blue-600 hover:text-blue-800" title="Confirmer">
+                                        <i class="fas fa-check-circle"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-800 ml-2" title="Annuler">
+                                        <i class="fas fa-times-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flex justify-between">
+                    <button class="px-4 py-2 rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        <i class="fas fa-download mr-2"></i>Exporter CSV
+                    </button>
+                    <button class="btn-primary px-4 py-2 rounded-md">
+                        <i class="fas fa-plus mr-2"></i>Nouvelle réservation
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Messages Section -->
+            <div id="messages-section" class="messages-container">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold" style="color: var(--text-dark);">Messages des clients</h3>
+                    <button id="back-from-messages" class="px-4 py-2 rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        <i class="fas fa-arrow-left mr-2"></i>Retour
+                    </button>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-6" style="background-color: var(--card-bg); border: 1px solid var(--border-color);">
+                    <table class="messages-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Sujet</th>
+                                <th>Message</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>10/04/2025</td>
+                                <td>Sophie Petit</td>
+                                <td>sophie@exemple.com</td>
+                                <td>Question sur les allergènes</td>
+                                <td>Bonjour, proposez-vous des pizzas sans gluten ? Merci.</td>
+                                <td><span class="px-2 py-1 text-white text-xs rounded-full" style="background-color: var(--primary);">Non traité</span></td>
+                                <td>
+                                    <button class="text-blue-600 hover:text-blue-800" title="Répondre">
+                                        <i class="fas fa-reply"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-800 ml-2" title="Supprimer">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>11/04/2025</td>
+                                <td>Thomas Durand</td>
+                                <td>thomas@exemple.com</td>
+                                <td>Privatisation</td>
+                                <td>Je souhaiterais privatiser votre restaurant pour un événement. Est-ce possible ?</td>
+                                <td><span class="px-2 py-1 text-white text-xs rounded-full" style="background-color: var(--secondary);">Traité</span></td>
+                                <td>
+                                    <button class="text-blue-600 hover:text-blue-800" title="Voir la conversation">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="text-red-600 hover:text-red-800 ml-2" title="Supprimer">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button class="px-4 py-2 rounded-md mr-4" style="background-color: var(--card-bg); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        <i class="fas fa-download mr-2"></i>Exporter CSV
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Stats Section -->
+            <div id="stats-section" class="stats-container">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-bold" style="color: var(--text-dark);">Statistiques du restaurant</h3>
+                    <button id="back-from-stats" class="px-4 py-2 rounded-md" style="background-color: var(--card-bg); color: var(--text-dark); border: 1px solid var(--border-color);">
+                        <i class="fas fa-arrow-left mr-2"></i>Retour
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="stats-card">
+                        <h4 class="stats-title">Réservations par semaine</h4>
+                        <div class="chart-container">
+                            <canvas id="reservations-chart"></canvas>
                         </div>
-                        
-                        <div class="admin-card">
-                            <div class="flex items-center mb-2">
-                                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                                    <i class="fas fa-envelope text-blue-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-1">Messages</h3>
-                                    <div class="relative">
-                                        <span>Consultez et répondez aux messages des clients.</span>
-                                        <span class="notification-badge">2</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button id="show-messages" class="text-blue-600 font-semibold hover:text-blue-800 mt-4">Voir les messages →</button>
-                        </div>
-                        
-                        <div class="admin-card">
-                            <div class="flex items-center mb-2">
-                                <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4">
-                                    <i class="fas fa-chart-line text-green-600 text-xl"></i>
-                                </div>
-                                <div>
-                                    <h3 class="text-xl font-semibold mb-1">Statistiques</h3>
-                                    <span>Analysez la performance de votre restaurant.</span>
-                                </div>
-                            </div>
-                            <button id="show-stats" class="text-green-600 font-semibold hover:text-green-800 mt-4">Voir les statistiques →</button>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <h4 class="stats-title">Taux d'occupation</h4>
+                        <div class="chart-container">
+                            <canvas id="occupancy-chart"></canvas>
                         </div>
                     </div>
                 </div>
-
-                <!-- Reservations Section -->
-                <div id="reservations-content" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-semibold">Réservations</h3>
-                        <button id="back-to-dashboard" class="px-4 py-2 rounded text-gray-700 hover:bg-gray-200">
-                            <i class="fas fa-arrow-left mr-2"></i>Retour
-                        </button>
-                    </div>
-                    
-                    <div class="admin-card mb-6">
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left">Date</th>
-                                        <th class="px-4 py-2 text-left">Heure</th>
-                                        <th class="px-4 py-2 text-left">Nom</th>
-                                        <th class="px-4 py-2 text-left">Personnes</th>
-                                        <th class="px-4 py-2 text-left">Contact</th>
-                                        <th class="px-4 py-2 text-left">Statut</th>
-                                        <th class="px-4 py-2 text-left">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="font-bold">
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">15/04/2023</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">19:30</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Jean Dupont</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">4</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">jean@exemple.com</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente</span>
-                                        </td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <button class="text-green-600 hover:text-green-800 mr-2"><i class="fas fa-check"></i></button>
-                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-times"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr class="font-bold">
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">16/04/2023</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">20:00</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Marie Martin</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">2</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">marie@exemple.com</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente</span>
-                                        </td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <button class="text-green-600 hover:text-green-800 mr-2"><i class="fas fa-check"></i></button>
-                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-times"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr class="font-bold">
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">17/04/2023</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">12:30</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Paul Bernard</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">6</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">paul@exemple.com</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente</span>
-                                        </td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <button class="text-green-600 hover:text-green-800 mr-2"><i class="fas fa-check"></i></button>
-                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-times"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">14/04/2023</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">19:00</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Sophie Moreau</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">3</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">sophie@exemple.com</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Confirmée</span>
-                                        </td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Messages Section -->
-                <div id="messages-content" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-semibold">Messages</h3>
-                        <button id="back-from-messages" class="px-4 py-2 rounded text-gray-700 hover:bg-gray-200">
-                            <i class="fas fa-arrow-left mr-2"></i>Retour
-                        </button>
-                    </div>
-                    
-                    <div class="admin-card mb-6">
-                        <div class="overflow-x-auto">
-                            <table class="w-full">
-                                <thead>
-                                    <tr>
-                                        <th class="px-4 py-2 text-left">Date</th>
-                                        <th class="px-4 py-2 text-left">Nom</th>
-                                        <th class="px-4 py-2 text-left">Email</th>
-                                        <th class="px-4 py-2 text-left">Sujet</th>
-                                        <th class="px-4 py-2 text-left">Message</th>
-                                        <th class="px-4 py-2 text-left">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="font-bold">
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">12/04/2023</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Sophie Petit</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">sophie@exemple.com</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Question sur les allergènes</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Bonjour, proposez-vous des pizzas sans gluten ?</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-reply"></i></button>
-                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr class="font-bold">
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">11/04/2023</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Thomas Durand</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">thomas@exemple.com</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Privatisation</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Je souhaiterais privatiser votre restaurant...</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-reply"></i></button>
-                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">10/04/2023</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Julie Martin</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">julie@exemple.com</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Remerciements</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">Merci pour cette soirée merveilleuse...</td>
-                                        <td class="px-4 py-2 border-t" style="border-color: var(--border-color);">
-                                            <button class="text-blue-600 hover:text-blue-800 mr-2"><i class="fas fa-reply"></i></button>
-                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Statistics Section -->
-                <div id="stats-content" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-semibold">Statistiques du restaurant</h3>
-                        <button id="back-from-stats" class="px-4 py-2 rounded text-gray-700 hover:bg-gray-200">
-                            <i class="fas fa-arrow-left mr-2"></i>Retour
-                        </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <!-- Réservations par semaine -->
-                        <div class="admin-card">
-                            <h4 class="stats-label mb-4">Réservations par semaine</h4>
-                            <div class="chart-container">
-                                <canvas id="reservations-chart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <!-- Taux d'occupation -->
-                        <div class="admin-card">
-                            <h4 class="stats-label mb-4">Taux d'occupation</h4>
-                            <div class="chart-container">
-                                <canvas id="occupancy-chart"></canvas>
-                            </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="stats-card">
+                        <h4 class="stats-title">Jours populaires</h4>
+                        <div class="chart-container">
+                            <canvas id="popular-days-chart"></canvas>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Jours populaires -->
-                        <div class="admin-card">
-                            <h4 class="stats-label mb-4">Jours populaires</h4>
-                            <div class="chart-container" style="height: 250px;">
-                                <canvas id="popular-days-chart"></canvas>
-                            </div>
+                    <div class="stats-card">
+                        <h4 class="stats-title">Répartition horaire</h4>
+                        <div class="chart-container">
+                            <canvas id="time-distribution-chart"></canvas>
                         </div>
-                        
-                        <!-- Répartition horaire -->
-                        <div class="admin-card">
-                            <h4 class="stats-label mb-4">Répartition horaire</h4>
-                            <div class="chart-container" style="height: 250px;">
-                                <canvas id="time-distribution-chart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <!-- Taille des groupes -->
-                        <div class="admin-card">
-                            <h4 class="stats-label mb-4">Taille des groupes</h4>
-                            <div class="chart-container" style="height: 250px;">
-                                <canvas id="group-size-chart"></canvas>
-                            </div>
+                    </div>
+                    
+                    <div class="stats-card">
+                        <h4 class="stats-title">Taille des groupes</h4>
+                        <div class="chart-container">
+                            <canvas id="group-size-chart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -1240,43 +1507,73 @@
     </div>
 
     <script>
-        // Mobile menu toggle
+        // Initialisation des variables
+        let isDarkMode = false;
+        
+        // Éléments DOM
+        const body = document.body;
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
+        const reservationForm = document.getElementById('reservation-form');
+        const contactForm = document.getElementById('contact-form');
+        const dateInput = document.getElementById('date');
+
+        // Toggles de thème
+        const themeToggleNav = document.getElementById('theme-toggle-nav');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const themeToggleFooter = document.getElementById('theme-toggle-footer');
+        const themeToggleAdmin = document.getElementById('theme-toggle-admin');
         
-        mobileMenuButton.addEventListener('click', () => {
-            if (mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.remove('hidden');
-                mobileMenu.classList.add('flex');
-            } else {
-                mobileMenu.classList.add('hidden');
-                mobileMenu.classList.remove('flex');
-            }
-        });
+        // Admin éléments
+        const adminLink = document.getElementById('admin-link');
+        const adminContainer = document.getElementById('admin-container');
+        const adminLogin = document.getElementById('admin-login');
+        const adminLoginForm = document.getElementById('admin-login-form');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const adminCancel = document.getElementById('admin-cancel');
+        const adminLogout = document.getElementById('admin-logout');
+        
+        // Admin sections
+        const adminHome = document.getElementById('admin-home');
+        const reservationsSection = document.getElementById('reservations-section');
+        const messagesSection = document.getElementById('messages-section');
+        const statsSection = document.getElementById('stats-section');
+        
+        // Admin navigation buttons
+        const viewReservations = document.getElementById('view-reservations');
+        const viewMessages = document.getElementById('view-messages');
+        const viewStats = document.getElementById('view-stats');
+        const backFromReservations = document.getElementById('back-from-reservations');
+        const backFromMessages = document.getElementById('back-from-messages');
+        const backFromStats = document.getElementById('back-from-stats');
+        
+        // Mobile menu toggle
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
+        }
         
         // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]:not(#admin-link)').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+        document.querySelectorAll('a[href^="#"]:not([href="#"]):not(#admin-link)').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 
                 // Close mobile menu if open
-                if (!mobileMenu.classList.contains('hidden')) {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenu.classList.remove('flex');
+                if (mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
                 }
                 
                 const targetElement = document.querySelector(this.getAttribute('href'));
                 if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
+                    targetElement.scrollIntoView({
                         behavior: 'smooth'
                     });
                 }
             });
         });
         
-        // Form submissions
-        const reservationForm = document.getElementById('reservation-form');
+        // Form submission handling
         if (reservationForm) {
             reservationForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1285,7 +1582,6 @@
             });
         }
         
-        const contactForm = document.getElementById('contact-form');
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -1294,523 +1590,479 @@
             });
         }
         
-        // Menu filtering system
-        const menuFilters = document.querySelectorAll('.menu-filter');
+        // Current date for the reservation form
+        if (dateInput) {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            
+            const formattedToday = yyyy + '-' + mm + '-' + dd;
+            dateInput.setAttribute('min', formattedToday);
+        }
+        
+        // Menu category filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
         const menuCategories = document.querySelectorAll('.menu-category');
         
-        function filterMenu(category) {
-            menuFilters.forEach(button => {
-                button.classList.remove('bg-red-600', 'text-white');
-                button.classList.add('bg-white', 'border', 'border-red-600', 'text-red-600');
+        if (filterButtons.length > 0 && menuCategories.length > 0) {
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Reset all buttons
+                    filterButtons.forEach(btn => {
+                        btn.style.backgroundColor = 'var(--card-bg)';
+                        btn.style.color = 'var(--primary)';
+                        btn.classList.remove('bg-red-600', 'text-white');
+                        btn.classList.add('bg-white', 'border', 'border-red-600', 'text-red-600');
+                    });
+                    
+                    // Style active button
+                    this.style.backgroundColor = 'var(--primary)';
+                    this.style.color = 'white';
+                    this.classList.remove('bg-white', 'border', 'border-red-600', 'text-red-600');
+                    this.classList.add('bg-red-600', 'text-white');
+                    
+                    // Filter categories
+                    const filter = this.getAttribute('data-filter');
+                    
+                    menuCategories.forEach(category => {
+                        if (filter === 'all' || category.getAttribute('data-category') === filter) {
+                            category.style.display = 'block';
+                        } else {
+                            category.style.display = 'none';
+                        }
+                    });
+                });
             });
-            
-            const activeButton = document.querySelector(`.menu-filter[data-category="${category}"]`);
-            if (activeButton) {
-                activeButton.classList.remove('bg-white', 'border', 'border-red-600', 'text-red-600');
-                activeButton.classList.add('bg-red-600', 'text-white');
-            }
-            
-            if (category === 'all') {
-                menuCategories.forEach(item => {
-                    item.style.display = 'block';
-                });
-            } else {
-                menuCategories.forEach(item => {
-                    if (item.dataset.category === category) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            }
         }
         
-        menuFilters.forEach(button => {
-            button.addEventListener('click', function() {
-                const category = this.dataset.category;
-                filterMenu(category);
-            });
-        });
-        
-        // Theme toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const adminThemeToggle = document.getElementById('admin-theme-toggle');
-        const mobileThemeToggle = document.getElementById('theme-toggle-mobile');
-        
+        // Theme toggle functionality
         function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            
-            // Update all toggles to match
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            if (themeToggle) themeToggle.checked = isDarkMode;
-            if (adminThemeToggle) adminThemeToggle.checked = isDarkMode;
-            
-            // Update mobile icon
-            if (mobileThemeToggle) {
-                const icon = mobileThemeToggle.querySelector('i');
-                if (isDarkMode) {
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
-                } else {
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
-                }
-            }
-            
-            // Store preference
-            localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
-            
-            // Update charts if they exist
-            updateChartsForTheme();
-        }
-        
-        // Set initial theme from saved preference
-        if (localStorage.getItem('darkMode') === 'enabled') {
-            document.body.classList.add('dark-mode');
-            if (themeToggle) themeToggle.checked = true;
-            if (adminThemeToggle) adminThemeToggle.checked = true;
-            if (mobileThemeToggle) {
-                const icon = mobileThemeToggle.querySelector('i');
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            }
-        }
-        
-        if (themeToggle) {
-            themeToggle.addEventListener('change', toggleDarkMode);
-        }
-        
-        if (adminThemeToggle) {
-            adminThemeToggle.addEventListener('change', toggleDarkMode);
-        }
-        
-        if (mobileThemeToggle) {
-            mobileThemeToggle.addEventListener('click', toggleDarkMode);
-        }
-        
-        // Admin Panel
-        const adminLink = document.getElementById('admin-link');
-        const adminPanel = document.getElementById('admin-panel');
-        const closeAdmin = document.getElementById('close-admin');
-        const adminLogin = document.getElementById('admin-login');
-        const adminDashboard = document.getElementById('admin-dashboard');
-        const loginForm = document.getElementById('login-form');
-        
-        adminLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            adminPanel.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        });
-        
-        closeAdmin.addEventListener('click', function() {
-            adminPanel.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        });
-        
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            if (username === 'admin' && password === 'mamapizza2023') {
-                adminLogin.style.display = 'none';
-                adminDashboard.style.display = 'block';
-                initializeCharts();
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                body.classList.add('dark-mode');
             } else {
-                alert('Identifiants incorrects');
+                body.classList.remove('dark-mode');
             }
-        });
-        
-        // Admin Navigation
-        const showReservations = document.getElementById('show-reservations');
-        const showMessages = document.getElementById('show-messages');
-        const showStats = document.getElementById('show-stats');
-        const backToDashboard = document.getElementById('back-to-dashboard');
-        const backFromMessages = document.getElementById('back-from-messages');
-        const backFromStats = document.getElementById('back-from-stats');
-        const dashboardContent = document.getElementById('dashboard-content');
-        const reservationsContent = document.getElementById('reservations-content');
-        const messagesContent = document.getElementById('messages-content');
-        const statsContent = document.getElementById('stats-content');
-        
-        function showAdminSection(section) {
-            [dashboardContent, reservationsContent, messagesContent, statsContent].forEach(content => {
-                content.classList.add('hidden');
-            });
-            section.classList.remove('hidden');
+            
+            // Sync all theme toggles
+            themeToggleNav.checked = isDarkMode;
+            themeToggleMobile.checked = isDarkMode;
+            themeToggleFooter.checked = isDarkMode;
+            if (themeToggleAdmin) themeToggleAdmin.checked = isDarkMode;
+            
+            // Redraw charts if they exist
+            updateCharts();
         }
         
-        showReservations.addEventListener('click', function() {
-            showAdminSection(reservationsContent);
-        });
+        if (themeToggleNav) themeToggleNav.addEventListener('change', toggleDarkMode);
+        if (themeToggleMobile) themeToggleMobile.addEventListener('change', toggleDarkMode);
+        if (themeToggleFooter) themeToggleFooter.addEventListener('change', toggleDarkMode);
+        if (themeToggleAdmin) themeToggleAdmin.addEventListener('change', toggleDarkMode);
         
-        showMessages.addEventListener('click', function() {
-            showAdminSection(messagesContent);
-        });
+        // Admin panel functionality
+        if (adminLink) {
+            adminLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                adminContainer.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                adminLogin.style.display = 'block';
+                adminDashboard.style.display = 'none';
+            });
+        }
         
-        showStats.addEventListener('click', function() {
-            showAdminSection(statsContent);
-            updateChartsForTheme(); // Make sure charts adapt to current theme
-        });
+        if (adminCancel) {
+            adminCancel.addEventListener('click', function() {
+                adminContainer.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        }
         
-        backToDashboard.addEventListener('click', function() {
-            showAdminSection(dashboardContent);
-        });
+        if (adminLogout) {
+            adminLogout.addEventListener('click', function() {
+                adminContainer.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        }
         
-        backFromMessages.addEventListener('click', function() {
-            showAdminSection(dashboardContent);
-        });
+        if (adminLoginForm) {
+            adminLoginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('admin-username').value;
+                const password = document.getElementById('admin-password').value;
+                
+                if (username === 'admin' && password === 'mamapizza2023') {
+                    adminLogin.style.display = 'none';
+                    adminDashboard.style.display = 'block';
+                    adminHome.style.display = 'block';
+                    reservationsSection.style.display = 'none';
+                    messagesSection.style.display = 'none';
+                    statsSection.style.display = 'none';
+                    initCharts();
+                } else {
+                    alert('Identifiants incorrects. Veuillez réessayer.');
+                }
+            });
+        }
         
-        backFromStats.addEventListener('click', function() {
-            showAdminSection(dashboardContent);
-        });
+        // Admin navigation
+        if (viewReservations) {
+            viewReservations.addEventListener('click', function() {
+                adminHome.style.display = 'none';
+                reservationsSection.style.display = 'block';
+                messagesSection.style.display = 'none';
+                statsSection.style.display = 'none';
+            });
+        }
         
-        // Charts initialization
+        if (viewMessages) {
+            viewMessages.addEventListener('click', function() {
+                adminHome.style.display = 'none';
+                reservationsSection.style.display = 'none';
+                messagesSection.style.display = 'block';
+                statsSection.style.display = 'none';
+            });
+        }
+        
+        if (viewStats) {
+            viewStats.addEventListener('click', function() {
+                adminHome.style.display = 'none';
+                reservationsSection.style.display = 'none';
+                messagesSection.style.display = 'none';
+                statsSection.style.display = 'block';
+                updateCharts();
+            });
+        }
+        
+        if (backFromReservations) {
+            backFromReservations.addEventListener('click', function() {
+                adminHome.style.display = 'block';
+                reservationsSection.style.display = 'none';
+            });
+        }
+        
+        if (backFromMessages) {
+            backFromMessages.addEventListener('click', function() {
+                adminHome.style.display = 'block';
+                messagesSection.style.display = 'none';
+            });
+        }
+        
+        if (backFromStats) {
+            backFromStats.addEventListener('click', function() {
+                adminHome.style.display = 'block';
+                statsSection.style.display = 'none';
+            });
+        }
+        
+        // Initialize and update charts
         let reservationsChart, occupancyChart, popularDaysChart, timeDistributionChart, groupSizeChart;
         
-        function initializeCharts() {
-            // Only initialize if charts don't exist yet
-            if (!reservationsChart) {
-                createReservationsChart();
-            }
-            
-            if (!occupancyChart) {
-                createOccupancyChart();
-            }
-            
-            if (!popularDaysChart) {
-                createPopularDaysChart();
-            }
-            
-            if (!timeDistributionChart) {
-                createTimeDistributionChart();
-            }
-            
-            if (!groupSizeChart) {
-                createGroupSizeChart();
-            }
+        function getChartTextColor() {
+            return isDarkMode ? '#FFFFFF' : '#333333';
         }
         
-        function createReservationsChart() {
-            const ctx = document.getElementById('reservations-chart').getContext('2d');
+        function initCharts() {
+            const textColor = getChartTextColor();
             
-            // Theme-aware colors
-            const gridColor = document.body.classList.contains('dark-mode') ? 
-                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-            const textColor = document.body.classList.contains('dark-mode') ? 
-                '#e0e0e0' : '#333333';
-            
-            reservationsChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
-                    datasets: [{
-                        label: 'Nombre de réservations',
-                        data: [12, 19, 15, 18, 25, 32, 28],
-                        backgroundColor: 'rgba(211, 47, 47, 0.2)',
-                        borderColor: 'rgba(211, 47, 47, 1)',
-                        borderWidth: 2,
-                        tension: 0.3,
-                        pointBackgroundColor: 'rgba(211, 47, 47, 1)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: gridColor
+            // Réservations par semaine
+            const reservationsCtx = document.getElementById('reservations-chart');
+            if (reservationsCtx) {
+                reservationsChart = new Chart(reservationsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+                        datasets: [{
+                            label: 'Réservations',
+                            data: [12, 19, 15, 20, 25, 32, 28],
+                            borderColor: '#D32F2F',
+                            backgroundColor: 'rgba(211, 47, 47, 0.2)',
+                            tension: 0.3,
+                            pointBackgroundColor: '#D32F2F'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(200, 200, 200, 0.1)'
+                                },
+                                ticks: {
+                                    color: textColor
+                                }
                             },
-                            ticks: {
-                                color: textColor
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: textColor
+                                }
                             }
                         },
-                        x: {
-                            grid: {
-                                color: gridColor
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Taux d'occupation
+            const occupancyCtx = document.getElementById('occupancy-chart');
+            if (occupancyCtx) {
+                occupancyChart = new Chart(occupancyCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Occupation', 'Disponible'],
+                        datasets: [{
+                            data: [78, 22],
+                            backgroundColor: [
+                                '#4CAF50',
+                                'rgba(200, 200, 200, 0.3)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
                             },
-                            ticks: {
-                                color: textColor
+                            title: {
+                                display: true,
+                                text: 'Taux moyen d\'occupation',
+                                color: textColor,
+                                font: {
+                                    size: 14
+                                },
+                                padding: {
+                                    bottom: 20
+                                }
+                            }
+                        },
+                        elements: {
+                            center: {
+                                text: '78%',
+                                color: textColor,
+                                fontStyle: 'Arial',
+                                fontSize: 24
                             }
                         }
                     },
-                    plugins: {
-                        legend: {
-                            display: false
+                    plugins: [{
+                        id: 'doughnutCenterText',
+                        afterDraw: function(chart) {
+                            if (chart.config.options.elements && chart.config.options.elements.center) {
+                                const ctx = chart.ctx;
+                                const centerConfig = chart.config.options.elements.center;
+                                
+                                ctx.save();
+                                const fontStyle = centerConfig.fontStyle || 'Arial';
+                                const fontSize = centerConfig.fontSize || 24;
+                                ctx.font = fontSize + 'px ' + fontStyle;
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'middle';
+                                ctx.fillStyle = centerConfig.color || textColor;
+                                
+                                const centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+                                const centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+                                ctx.fillText(centerConfig.text, centerX, centerY);
+                                
+                                ctx.font = '14px ' + fontStyle;
+                                ctx.fillText('Occupation', centerX, centerY + 24);
+                                ctx.restore();
+                            }
+                        }
+                    }]
+                });
+            }
+            
+            // Jours populaires
+            const popularDaysCtx = document.getElementById('popular-days-chart');
+            if (popularDaysCtx) {
+                popularDaysChart = new Chart(popularDaysCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+                        datasets: [{
+                            label: 'Réservations',
+                            data: [15, 22, 18, 25, 30, 38, 35],
+                            backgroundColor: [
+                                '#5B9BD5', '#5B9BD5', '#5B9BD5', '#5B9BD5',
+                                '#ED7D31', '#ED7D31', '#ED7D31'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(200, 200, 200, 0.1)'
+                                },
+                                ticks: {
+                                    color: textColor
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: textColor
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
                         }
                     }
-                }
-            });
-        }
-        
-        function createOccupancyChart() {
-            const ctx = document.getElementById('occupancy-chart').getContext('2d');
+                });
+            }
             
-            occupancyChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Occupé', 'Disponible'],
-                    datasets: [{
-                        data: [78, 22],
-                        backgroundColor: [
-                            'rgba(76, 175, 80, 0.8)',
-                            'rgba(200, 200, 200, 0.2)'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.raw + '%';
+            // Répartition horaire
+            const timeDistributionCtx = document.getElementById('time-distribution-chart');
+            if (timeDistributionCtx) {
+                timeDistributionChart = new Chart(timeDistributionCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Midi (32%)', 'Soir (68%)'],
+                        datasets: [{
+                            data: [32, 68],
+                            backgroundColor: [
+                                '#FFC107',
+                                '#D32F2F'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: textColor,
+                                    padding: 20,
+                                    font: {
+                                        size: 12
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
             
-            // Add center text
-            Chart.register({
-                id: 'chartAreaPlugin',
-                beforeDraw: function(chart) {
-                    if (chart.config.type === 'doughnut') {
-                        const width = chart.width;
-                        const height = chart.height;
-                        const ctx = chart.ctx;
-                        const textColor = document.body.classList.contains('dark-mode') ? 
-                            '#e0e0e0' : '#333333';
-                        
-                        ctx.restore();
-                        const fontSize = (height / 114).toFixed(2);
-                        ctx.font = fontSize + 'em sans-serif';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillStyle = textColor;
-                        
-                        const text = '78%';
-                        const textX = Math.round((width - ctx.measureText(text).width) / 2);
-                        const textY = height / 2;
-                        
-                        ctx.fillText(text, textX, textY);
-                        ctx.font = (fontSize * 0.5) + 'em sans-serif';
-                        const occupationText = 'Occupation';
-                        const occupationX = Math.round((width - ctx.measureText(occupationText).width) / 2);
-                        ctx.fillText(occupationText, occupationX, textY + 25);
-                        ctx.save();
-                    }
-                }
-            });
-        }
-        
-        function createPopularDaysChart() {
-            const ctx = document.getElementById('popular-days-chart').getContext('2d');
-            
-            // Theme-aware colors
-            const gridColor = document.body.classList.contains('dark-mode') ? 
-                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-            const textColor = document.body.classList.contains('dark-mode') ? 
-                '#e0e0e0' : '#333333';
-            
-            popularDaysChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-                    datasets: [{
-                        data: [15, 22, 18, 25, 30, 38, 35],
-                        backgroundColor: [
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(54, 162, 235, 0.8)',
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(255, 99, 132, 0.8)',
-                            'rgba(255, 99, 132, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: gridColor
-                            },
-                            ticks: {
-                                color: textColor
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: textColor
-                            }
-                        }
+            // Taille des groupes
+            const groupSizeCtx = document.getElementById('group-size-chart');
+            if (groupSizeCtx) {
+                groupSizeChart = new Chart(groupSizeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['1-2 pers.', '3-4 pers.', '5-6 pers.', '7+ pers.'],
+                        datasets: [{
+                            label: 'Pourcentage',
+                            data: [40, 35, 20, 5],
+                            backgroundColor: '#4CAF50'
+                        }]
                     },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                }
-            });
-        }
-        
-        function createTimeDistributionChart() {
-            const ctx = document.getElementById('time-distribution-chart').getContext('2d');
-            
-            // Theme-aware colors
-            const textColor = document.body.classList.contains('dark-mode') ? 
-                '#e0e0e0' : '#333333';
-            
-            timeDistributionChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Midi (32%)', 'Soir (68%)'],
-                    datasets: [{
-                        data: [32, 68],
-                        backgroundColor: [
-                            'rgba(255, 159, 64, 0.8)',
-                            'rgba(255, 99, 132, 0.8)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                color: textColor,
-                                padding: 10,
-                                boxWidth: 12
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        
-        function createGroupSizeChart() {
-            const ctx = document.getElementById('group-size-chart').getContext('2d');
-            
-            // Theme-aware colors
-            const gridColor = document.body.classList.contains('dark-mode') ? 
-                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-            const textColor = document.body.classList.contains('dark-mode') ? 
-                '#e0e0e0' : '#333333';
-            
-            groupSizeChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['1-2 pers.', '3-4 pers.', '5-6 pers.', '7+ pers.'],
-                    datasets: [{
-                        data: [40, 35, 20, 5],
-                        backgroundColor: 'rgba(75, 192, 192, 0.8)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            max: 50,
-                            grid: {
-                                color: gridColor
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(200, 200, 200, 0.1)'
+                                },
+                                ticks: {
+                                    color: textColor,
+                                    callback: function(value) {
+                                        return value + '%';
+                                    }
+                                }
                             },
-                            ticks: {
-                                color: textColor,
-                                callback: function(value) {
-                                    return value + '%';
+                            y: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    color: textColor
                                 }
                             }
                         },
-                        y: {
-                            grid: {
+                        plugins: {
+                            legend: {
                                 display: false
-                            },
-                            ticks: {
-                                color: textColor
                             }
                         }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
                     }
-                }
-            });
+                });
+            }
         }
         
-        function updateChartsForTheme() {
-            // Only update if charts exist
-            if (!reservationsChart || !occupancyChart || !popularDaysChart || 
-                !timeDistributionChart || !groupSizeChart) {
-                return;
+        function updateCharts() {
+            const textColor = getChartTextColor();
+            
+            if (reservationsChart) {
+                reservationsChart.options.scales.x.ticks.color = textColor;
+                reservationsChart.options.scales.y.ticks.color = textColor;
+                reservationsChart.update();
             }
             
-            const gridColor = document.body.classList.contains('dark-mode') ? 
-                'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-            const textColor = document.body.classList.contains('dark-mode') ? 
-                '#e0e0e0' : '#333333';
+            if (occupancyChart) {
+                occupancyChart.options.plugins.title.color = textColor;
+                occupancyChart.options.elements.center.color = textColor;
+                occupancyChart.update();
+            }
             
-            // Update reservations chart
-            reservationsChart.options.scales.y.grid.color = gridColor;
-            reservationsChart.options.scales.x.grid.color = gridColor;
-            reservationsChart.options.scales.y.ticks.color = textColor;
-            reservationsChart.options.scales.x.ticks.color = textColor;
-            reservationsChart.update();
+            if (popularDaysChart) {
+                popularDaysChart.options.scales.x.ticks.color = textColor;
+                popularDaysChart.options.scales.y.ticks.color = textColor;
+                popularDaysChart.update();
+            }
             
-            // Update popular days chart
-            popularDaysChart.options.scales.y.grid.color = gridColor;
-            popularDaysChart.options.scales.y.ticks.color = textColor;
-            popularDaysChart.options.scales.x.ticks.color = textColor;
-            popularDaysChart.update();
+            if (timeDistributionChart) {
+                timeDistributionChart.options.plugins.legend.labels.color = textColor;
+                timeDistributionChart.update();
+            }
             
-            // Update time distribution chart
-            timeDistributionChart.options.plugins.legend.labels.color = textColor;
-            timeDistributionChart.update();
-            
-            // Update group size chart
-            groupSizeChart.options.scales.x.grid.color = gridColor;
-            groupSizeChart.options.scales.x.ticks.color = textColor;
-            groupSizeChart.options.scales.y.ticks.color = textColor;
-            groupSizeChart.update();
+            if (groupSizeChart) {
+                groupSizeChart.options.scales.x.ticks.color = textColor;
+                groupSizeChart.options.scales.y.ticks.color = textColor;
+                groupSizeChart.update();
+            }
         }
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('darkMode');
+        if (savedTheme === 'true') {
+            toggleDarkMode();
+        }
+        
+        // Save theme preference
+        function saveThemePreference() {
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+        
+        // Handle theme changes
+        if (themeToggleNav) themeToggleNav.addEventListener('change', saveThemePreference);
+        if (themeToggleMobile) themeToggleMobile.addEventListener('change', saveThemePreference);
+        if (themeToggleFooter) themeToggleFooter.addEventListener('change', saveThemePreference);
+        if (themeToggleAdmin) themeToggleAdmin.addEventListener('change', saveThemePreference);
     </script>
 </body>
 </html>
